@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,43 @@ using System.Threading.Tasks;
 namespace ProjetoFinal.Data.Repositories
 {
     public class UtilizadorRepository
-
     {
+
+        private static int _colId = 0;
+        private static int _colNome = 1;
+        private static int _colEmail = 2;
+        private static int _colPw = 3;
+        private static int _colBirthDate = 4;
+
         public List<Utilizador> GetAll()
         {
-            return null;
+            List<Utilizador> Utilizadores = new List<Utilizador>();
+
+            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+
+            SqlConnection conn = new SqlConnection(cs);
+
+            string query = "SELECT * FROM Utilizador";
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+
+            conn.Open();
+
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                int id = dr.GetInt32(_colId);
+                string nome = dr.GetString(_colNome);
+                string email = dr.GetString(_colEmail);
+                string password = dr.GetString(_colPw);
+                DateTime birthDate = dr.GetDateTime(_colBirthDate);
+
+                Utilizador utilizador = new Utilizador(id, nome, email, password, birthDate);
+                Utilizadores.Add(utilizador);
+            }
+
+            return Utilizadores;
         }
 
         public Utilizador GetById(int Id)

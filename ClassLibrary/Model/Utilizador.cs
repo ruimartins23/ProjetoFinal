@@ -25,6 +25,13 @@ namespace ClassLibrary
 
         public List<Receita> ReceitasFavoritas { get; set; }
 
-
+        public Utilizador(int id, string nome, string email, string password, DateTime birthDate)
+        {
+            Id = id;
+            Nome = nome;
+            Email = email;
+            Password = password;
+            BirthDate = birthDate;
+        }
     }
 }

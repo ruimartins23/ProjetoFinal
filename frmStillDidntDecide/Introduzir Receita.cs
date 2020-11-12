@@ -20,12 +20,7 @@ namespace frmStillDidntDecide
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Receita receita = new Receita();
-            receita.Nome = textBox1.Text;
-            receita.Descricao = textBox5.Text;
-            receita.Categoria = comboBox1.SelectedItem.ToString();
-            receita.Dificuldade = comboBox2.SelectedItem.ToString();
-            receita.Duracao = textBox2.Text;
+
             //receita.IngReceita.Add(richTextBox1.Text);
 
         }

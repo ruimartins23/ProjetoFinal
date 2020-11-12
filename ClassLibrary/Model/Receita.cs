@@ -23,6 +23,8 @@ namespace ClassLibrary
 
         public string Categoria { get; set; }
 
+        public string Comentário { get; set; }
+
         public List<Ingrediente> Ingredientes { get; set; }
 
         public Receita(int id, string nome, string descricao, int duracao, string dificuldade, int rating, string categoria)
