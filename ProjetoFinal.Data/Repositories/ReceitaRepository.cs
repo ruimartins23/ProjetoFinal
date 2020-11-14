@@ -48,7 +48,7 @@ namespace ProjetoFinal.Data.Repositories
 
 
 
-                Receita recipes = new Receita(id, name, desc, duration, dific, rating, category);
+                Receita recipes = new Receita(id, name, desc, duration, dific, rating, category); // CORRIGIR
                 receitas.Add(recipes);
 
             }

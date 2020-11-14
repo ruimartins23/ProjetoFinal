@@ -4,17 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary
+namespace ClassLibrary.Model
 {
-    public class Ingrediente
+    public class Categoria
     {
-
         public int Id { get; set; }
-
-        public string Unidade { get; set; }
-
-        public string Produto { get; set; }
-
-
+        public string ValorCategoria { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace ProjetoFinal.Data.Repositories
                 string nomeIng = dr.GetString(_colNomeing);
 
 
-                Ingrediente ingrediente = new Ingrediente(id, quantidade, nomeIng);
+                Ingrediente ingrediente = new Ingrediente(id, quantidade, nomeIng); // CORRIGIR
                 ingredients.Add(ingrediente);
 
             }

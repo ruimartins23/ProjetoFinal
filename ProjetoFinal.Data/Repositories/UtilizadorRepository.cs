@@ -41,7 +41,7 @@ namespace ProjetoFinal.Data.Repositories
                 string password = dr.GetString(_colPw);
                 DateTime birthDate = dr.GetDateTime(_colBirthDate);
 
-                Utilizador utilizador = new Utilizador(id, nome, email, password, birthDate);
+                Utilizador utilizador = new Utilizador(); //CONSTRUTOR COM MAIS ARGUMENTOS
                 Utilizadores.Add(utilizador);
             }
 

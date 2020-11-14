@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountRepository.cs" />
+    <Compile Include="Repositories\CategoriaRepository.cs" />
+    <Compile Include="Repositories\ComentarioRepository.cs" />
     <Compile Include="Repositories\IngredienteRepository.cs" />
     <Compile Include="Repositories\ReceitaRepository.cs" />
     <Compile Include="Repositories\UtilizadorRepository.cs" />
