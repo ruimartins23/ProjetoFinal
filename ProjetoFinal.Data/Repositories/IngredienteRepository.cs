@@ -11,14 +11,10 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class IngredienteRepository
     {
-        private static int _colIngrediente_Id = 0;
-        private static int _colNomeing = 1;
-        private static int _colQuantidade = 2;
-
 
         public List<Ingrediente> GetAll()
         {
-            List<Ingrediente> ingredients = new List<Ingrediente>();
+            List<Ingrediente> temp = new List<Ingrediente>();
 
             string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
 
@@ -34,28 +30,29 @@ namespace ProjetoFinal.Data.Repositories
 
             while (dr.Read())
             {
-                int id = dr.GetInt32(_colIngrediente_Id);
-                decimal quantidade = dr.GetDecimal(_colQuantidade);
-                string nomeIng = dr.GetString(_colNomeing);
+                int id = dr.GetInt32(0);
+                string unidade = dr.GetString(1);
+                string produto = dr.GetString(2);
 
 
-                Ingrediente ingrediente = new Ingrediente(id, quantidade, nomeIng); // CORRIGIR
-                ingredients.Add(ingrediente);
+                Ingrediente ingrediente = new Ingrediente(id, unidade, produto);
+                temp.Add(ingrediente);
 
             }
             conn.Close();
-            return ingredients;
+
+            return temp;
 
         }
 
-        public Ingrediente GetById(int Id)
+        public Ingrediente GetById(int id)
         {
             
             string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
 
             SqlConnection conn = new SqlConnection(cs);
 
-            string query = $"SELECT * FROM Ingrediente WHERE Ingrediente_id = {Id} ";
+            string query = $"SELECT * FROM Ingrediente WHERE Ingrediente_id = {id} ";
 
             SqlCommand cmd = new SqlCommand(query, conn);
 
@@ -68,9 +65,9 @@ namespace ProjetoFinal.Data.Repositories
 
                 Ingrediente ingrediente = new Ingrediente();
                 {
-                    ingrediente.Id = dr.GetInt32(_colIngrediente_Id);
-                    ingrediente.NomeIng = dr.GetString(_colNomeing);
-                    ingrediente.Quantidade = dr.GetDecimal(_colQuantidade);
+                    ingrediente.Id = dr.GetInt32(0);
+                    ingrediente.Unidade = dr.GetString(1);
+                    ingrediente.Produto = dr.GetString(2);
                     
                     
                 }
@@ -79,7 +76,7 @@ namespace ProjetoFinal.Data.Repositories
             }
             conn.Close();
 
-            throw new Exception("Nao existe nenhum ingrediente com o ID " + Id);
+            throw new Exception("Nao existe nenhum ingrediente com o ID " + id);
 
         }
 
@@ -93,7 +90,7 @@ namespace ProjetoFinal.Data.Repositories
 
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
 
         }

@@ -10,5 +10,15 @@ namespace ClassLibrary.Model
     {
         public int Id { get; set; }
         public string ValorCategoria { get; set; }
+
+        public Categoria(int id, string valorCategoria)
+        {
+            Id = id;
+            ValorCategoria = valorCategoria;
+        }
+
+        public Categoria()
+        {
+        }
     }
 }

@@ -17,5 +17,16 @@ namespace ClassLibrary.Model
         public Receita Receita { get; set; }
 
         public DateTime DataPost { get; set; }
+
+        public Comentario(int id, string valorComentario, DateTime dataPost)
+        {
+            Id = id;
+            ValorComentario = valorComentario;
+            DataPost = dataPost;
+        }
+
+        public Comentario()
+        {
+        }
     }
 }

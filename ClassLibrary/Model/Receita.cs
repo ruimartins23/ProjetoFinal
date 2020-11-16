@@ -10,7 +10,6 @@ namespace ClassLibrary
 {
     public class Receita
     {
-
         public int Id { get; set; }
 
         public string Nome { get; set; }
@@ -22,14 +21,14 @@ namespace ClassLibrary
         public bool Validado { get; set; }
 
 
-        public enum Dificuldade
+        public enum Dificuldade : byte
         {
             Fácil = 0,
             Médio = 1,
             Díficl = 2
         }
 
-        public enum Rating
+        public enum Rating : byte
         {
             UmaEstrela = 1,
             DuasEstrelas = 2,
@@ -48,5 +47,22 @@ namespace ClassLibrary
 
         public Comentario Comentario { get; set; }
 
+        private Rating _rating;
+        private Dificuldade _dificuldade;
+
+
+
+        public Receita(int id, string nome, string descricao, TimeSpan duracao, bool validado, Rating rating, Dificuldade dificuldade)
+        {
+
+            Id = id;
+            Nome = nome;
+            Validado = validado;
+            Descricao = descricao;
+            Duracao = duracao;
+            this._rating = rating;
+            this._dificuldade = dificuldade;
+            
+        }
     }
 }

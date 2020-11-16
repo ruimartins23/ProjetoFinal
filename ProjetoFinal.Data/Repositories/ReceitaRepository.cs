@@ -38,17 +38,17 @@ namespace ProjetoFinal.Data.Repositories
 
             while (dr.Read())
             {
-                int id = dr.GetInt32(_colReceita_id);
-                string name = dr.GetString(_colName);
-                string desc = dr.GetString(_colDesc);
-                int duration = dr.GetInt32(_colDuracao);
-                string dific = dr.GetString(_colDificuldade);
-                int rating = dr.GetInt32(_colRating);
-                string category = dr.GetString(_colCategoria);
+                int id = dr.GetInt32(0);
+                string name = dr.GetString(1);
+                string desc = dr.GetString(2);
+                int duration = dr.GetInt32(3);
+                bool validado = dr.GetBoolean(9);
+                byte dific = dr.GetByte(4);
+                int rating = dr.GetInt32(5);
 
 
 
-                Receita recipes = new Receita(id, name, desc, duration, dific, rating, category); // CORRIGIR
+                Receita recipes = new Receita();
                 receitas.Add(recipes);
 
             }

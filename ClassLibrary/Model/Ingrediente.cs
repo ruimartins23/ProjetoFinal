@@ -15,6 +15,15 @@ namespace ClassLibrary
 
         public string Produto { get; set; }
 
+        public Ingrediente(int id, string unidade, string produto)
+        {
+            Id = id;
+            Unidade = unidade;
+            Produto = produto;
+        }
 
+        public Ingrediente()
+        {
+        }
     }
 }
