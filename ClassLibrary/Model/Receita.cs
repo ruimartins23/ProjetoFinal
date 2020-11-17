@@ -49,7 +49,8 @@ namespace ClassLibrary
 
         private Rating _rating;
         private Dificuldade _dificuldade;
-
+        private byte rating;
+        private object dificuldade;
 
         public Receita(int id, string nome, string descricao, TimeSpan duracao, bool validado, Rating rating, Dificuldade dificuldade)
         {
@@ -63,6 +64,10 @@ namespace ClassLibrary
             this._rating = rating;
             this._dificuldade = dificuldade;
             
+        }
+
+        public Receita()
+        {
         }
     }
 }

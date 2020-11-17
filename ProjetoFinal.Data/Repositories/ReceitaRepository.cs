@@ -5,21 +5,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ClassLibrary.Receita;
 
 namespace ProjetoFinal.Data.Repositories
 {
     public class ReceitaRepository
     {
-
-        private static int _colReceita_id = 0;
-        private static int _colName = 1;
-        private static int _colDesc = 2;
-        private static int _colDuracao = 3;
-        private static int _colDificuldade = 4;
-        private static int _colRating = 5;
-        private static int _colCategoria = 6;
-
-
         public List<Receita> GetAll()
         {
             List<Receita> receitas = new List<Receita>();
@@ -39,16 +30,16 @@ namespace ProjetoFinal.Data.Repositories
             while (dr.Read())
             {
                 int id = dr.GetInt32(0);
-                string name = dr.GetString(1);
-                string desc = dr.GetString(2);
-                int duration = dr.GetInt32(3);
+                string nome = dr.GetString(1);
+                string descricao = dr.GetString(2);
+                TimeSpan duracao = dr.GetTimeSpan(3);
                 bool validado = dr.GetBoolean(9);
-                byte dific = dr.GetByte(4);
-                int rating = dr.GetInt32(5);
+                byte rating = dr.GetByte(5);
+                byte dificuldade = dr.GetByte(6);
 
 
 
-                Receita recipes = new Receita();
+                Receita recipes = new Receita(id, nome, descricao, duracao, validado, Rating.CincoEstrelas, Dificuldade.Díficl); // ADICIONAR ENUMS?
                 receitas.Add(recipes);
 
             }
@@ -75,13 +66,12 @@ namespace ProjetoFinal.Data.Repositories
 
                 Receita receita = new Receita();
                 {
-                    receita.Id = dr.GetInt32(_colReceita_id);
-                    receita.Nome = dr.GetString(_colName);
-                    receita.Descricao = dr.GetString(_colDesc);
-                    receita.Duracao = dr.GetInt32(_colDuracao);
-                    receita.Dificuldade = dr.GetString(_colDificuldade);
-                    receita.Rating = dr.GetInt32(_colRating);
-                    receita.Categoria = dr.GetString(_colCategoria);
+                    receita.Id = dr.GetInt32(0);
+                    receita.Nome = dr.GetString(1);
+                    receita.Descricao = dr.GetString(2);
+                    receita.Duracao = dr.GetTimeSpan(3);
+                    receita.Dificuldade = dr.GetString(4);
+                    receita.Rating = dr.GetInt32(5);
 
 
                 }
@@ -95,6 +85,30 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Add(Receita receita)
         {
+            
+            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+
+            SqlConnection conn = new SqlConnection(cs);
+            string query = $"INSERT INTO Receita (NomeRec, Descricao, Duracao, Categoria,) VALUES({receita.Nome}, {receita.Descricao}, {receita.Duracao}, {receita.Categoria})";
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
+            cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
+            cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
+            cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
+
+            conn.Open();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result < 0)
+            {
+                throw new Exception("Ocorreu um erro. A sua receita não foi adicionada");
+            }
+
+            conn.Close();
+
+
 
         }
 
