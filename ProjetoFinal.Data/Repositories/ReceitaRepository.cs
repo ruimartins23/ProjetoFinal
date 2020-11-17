@@ -70,8 +70,8 @@ namespace ProjetoFinal.Data.Repositories
                     receita.Nome = dr.GetString(1);
                     receita.Descricao = dr.GetString(2);
                     receita.Duracao = dr.GetTimeSpan(3);
-                    receita.Dificuldade = dr.GetString(4);
-                    receita.Rating = dr.GetInt32(5);
+                    receita._dificuldade = (Dificuldade)dr.GetInt32(4);
+                    receita._rating = (Rating)dr.GetInt32(5); // FIX THIS SHIT 
 
 
                 }
@@ -108,18 +108,56 @@ namespace ProjetoFinal.Data.Repositories
 
             conn.Close();
 
+            //not sure if correct 
+
 
 
         }
 
         public void Update(Receita receita)
         {
+            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
 
+            SqlConnection conn = new SqlConnection(cs);
+            string query = $"UPDATE Receita SET NomeRec = {receita.Nome}, Descricao = {receita.Descricao}, Duracao = {receita.Duracao}, Categoria = {receita.Categoria}) WHERE Receita_id = {receita.Id} ";
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
+            cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
+            cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
+            cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
+
+            conn.Open();
+            int result = cmd.ExecuteNonQuery();
+
+            if (result < 0)
+            {
+                throw new Exception("Ocorreu um erro. A sua receita não foi atualizada.");
+            }
+
+            conn.Close();
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
+            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
 
+            SqlConnection conn = new SqlConnection(cs);
+            string query = $"DELETE FROM Receita WHERE Receita_id = {id} ";
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+            cmd.Parameters.AddWithValue("@Receita_Id", id);
+
+            int result = cmd.ExecuteNonQuery();
+
+            if (result < 0)
+            {
+                throw new Exception("Aconteceu um erro. A receita nao foi apagada.");
+            }
+
+            conn.Close();
         }
     }
 }

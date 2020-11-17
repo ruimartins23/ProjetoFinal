@@ -47,10 +47,9 @@ namespace ClassLibrary
 
         public Comentario Comentario { get; set; }
 
-        private Rating _rating;
-        private Dificuldade _dificuldade;
-        private byte rating;
-        private object dificuldade;
+        public Rating _rating;
+        public Dificuldade _dificuldade;
+
 
         public Receita(int id, string nome, string descricao, TimeSpan duracao, bool validado, Rating rating, Dificuldade dificuldade)
         {
