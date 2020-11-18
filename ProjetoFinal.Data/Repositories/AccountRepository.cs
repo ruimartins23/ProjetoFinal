@@ -2,6 +2,7 @@
 using ClassLibrary.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -15,65 +16,70 @@ namespace ProjetoFinal.Data.Repositories
         {
             List<Account> temp = new List<Account>();
 
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
+            using (SqlConnection conn = new SqlConnection(cs))
+            {            
 
-            string query = "SELECT * FROM Account";
+                string query = "SELECT * FROM Account";
 
-            SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
 
-            conn.Open();
+                conn.Open();
 
-            SqlDataReader dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
-            while (dr.Read())
-            {
-                int id = dr.GetInt32(0);
-                string userName = dr.GetString(1);
-                string password = dr.GetString(2);
-                
+                while (dr.Read())
+                {
+                    int id = dr.GetInt32(0);
+                    string userName = dr.GetString(1);
+                    string password = dr.GetString(2);
+               
+                    Account Account = new Account(id, userName, password); //add utilizador?
+                    temp.Add(Account);
+
+                }
 
 
-                Account Account = new Account(id, userName, password); //add utilizador?
-                temp.Add(Account);
-
+                return temp;
             }
-            conn.Close();
-
-            return temp;
         }
 
         public Account GetById(int id)
         {
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
-
-            string query = $"SELECT * FROM Account WHERE Account_Id = {id} ";
-
-            SqlCommand cmd = new SqlCommand(query, conn);
-
-            conn.Open();
-
-            SqlDataReader dr = cmd.ExecuteReader();
-
-            while (dr.Read())
+            using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                Account Account = new Account();
+            
+
+                string query = $"SELECT * FROM Account WHERE Account_Id = {id} ";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
                 {
-                    Account.Id = dr.GetInt32(0);
-                    Account.Username = dr.GetString(1);
-                    Account.Password = dr.GetString(2);
+
+                    Account Account = new Account();
+                    {
+                        Account.Id = dr.GetInt32(0);
+                        Account.Username = dr.GetString(1);
+                        Account.Password = dr.GetString(2);
                     // utilizador?
 
-                    return Account;
-                }
+                        return Account;
+                    }
                 
-            }
+                }
 
-            throw new Exception("O ID inserido nao existe");
+                throw new Exception("O ID inserido nao existe");
+
+            }
 
         }   
         public void Add(Account Account)

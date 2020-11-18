@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -16,17 +17,18 @@ namespace ProjetoFinal.Data.Repositories
         {
             List<Ingrediente> temp = new List<Ingrediente>();
 
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
+            using (SqlConnection conn = new SqlConnection(cs))
+            {            
 
-            string query = "SELECT * FROM Ingrediente";
+                string query = "SELECT * FROM Ingrediente";
 
-            SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
 
-            conn.Open();
+                conn.Open();
 
-            SqlDataReader dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
             while (dr.Read())
             {
@@ -39,29 +41,30 @@ namespace ProjetoFinal.Data.Repositories
                 temp.Add(ingrediente);
 
             }
-            conn.Close();
+            
+                return temp;
 
-            return temp;
-
+            }
         }
 
         public Ingrediente GetById(int id)
         {
-            
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
 
-            SqlConnection conn = new SqlConnection(cs);
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            string query = $"SELECT * FROM Ingrediente WHERE Ingrediente_id = {id} ";
+            using (SqlConnection conn = new SqlConnection(cs))
+            {            
 
-            SqlCommand cmd = new SqlCommand(query, conn);
+                string query = $"SELECT * FROM Ingrediente WHERE Ingrediente_id = {id} ";
 
-            conn.Open();
+                SqlCommand cmd = new SqlCommand(query, conn);
 
-            SqlDataReader dr = cmd.ExecuteReader();
+                conn.Open();
 
-            while (dr.Read())
-            {
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
 
                 Ingrediente ingrediente = new Ingrediente();
                 {
@@ -73,11 +76,12 @@ namespace ProjetoFinal.Data.Repositories
                 }
                 return ingrediente;
 
-            }
-            conn.Close();
+                }
+            
 
             throw new Exception("Nao existe nenhum ingrediente com o ID " + id);
 
+            }
         }
 
         public void Add(Ingrediente ingrediente)

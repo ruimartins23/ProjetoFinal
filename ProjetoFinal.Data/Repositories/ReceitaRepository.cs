@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace ProjetoFinal.Data.Repositories
         {
             List<Receita> receitas = new List<Receita>();
 
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             SqlConnection conn = new SqlConnection(cs);
 
@@ -34,12 +35,12 @@ namespace ProjetoFinal.Data.Repositories
                 string descricao = dr.GetString(2);
                 TimeSpan duracao = dr.GetTimeSpan(3);
                 bool validado = dr.GetBoolean(9);
-                byte rating = dr.GetByte(5);
-                byte dificuldade = dr.GetByte(6);
+                byte _rating = (byte)(Rating)dr.GetByte(5);
+                byte _dificuldade = (byte)(Dificuldade)dr.GetByte(6); // ERRADO CORRIGIR
 
 
 
-                Receita recipes = new Receita(id, nome, descricao, duracao, validado, Rating.CincoEstrelas, Dificuldade.Díficl); // ADICIONAR ENUMS?
+                Receita recipes = new Receita(id, nome, descricao, duracao, validado , _dificuldade , Dificulda); // ADICIONAR ENUMS? NAO CONSIGO
                 receitas.Add(recipes);
 
             }
@@ -49,115 +50,122 @@ namespace ProjetoFinal.Data.Repositories
 
         public Receita GetById(int Id)
         {
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
+            using (SqlConnection conn = new SqlConnection(cs))
+            { 
+           
+                string query = $"SELECT * FROM Receita WHERE Receita_id = {Id} ";
 
-            string query = $"SELECT * FROM Receita WHERE Receita_id = {Id} ";
+                SqlCommand cmd = new SqlCommand(query, conn);
 
-            SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
 
-            conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
 
-            SqlDataReader dr = cmd.ExecuteReader();
+                 while (dr.Read())
+                 {
 
-            while (dr.Read())
-            {
-
-                Receita receita = new Receita();
-                {
-                    receita.Id = dr.GetInt32(0);
-                    receita.Nome = dr.GetString(1);
-                    receita.Descricao = dr.GetString(2);
-                    receita.Duracao = dr.GetTimeSpan(3);
-                    receita._dificuldade = (Dificuldade)dr.GetInt32(4);
-                    receita._rating = (Rating)dr.GetInt32(5); // FIX THIS SHIT 
+                    Receita receita = new Receita();
+                    {
+                        receita.Id = dr.GetInt32(0);
+                        receita.Nome = dr.GetString(1);
+                        receita.Descricao = dr.GetString(2);
+                        receita.Duracao = dr.GetTimeSpan(3);
+                        receita._dificuldade = (Dificuldade)dr.GetInt32(4);
+                        receita._rating = (Rating)dr.GetInt32(5); // FIX THIS SHIT 
 
 
-                }
-                return receita;
+                    }
+                    return receita;
+
+                 }
+
+
+                throw new Exception("Nao existe nenhuma receita com o ID " + Id);
 
             }
-            conn.Close();
-
-            throw new Exception("Nao existe nenhuma receita com o ID " + Id);
         }
 
         public void Add(Receita receita)
         {
-            
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
 
-            SqlConnection conn = new SqlConnection(cs);
-            string query = $"INSERT INTO Receita (NomeRec, Descricao, Duracao, Categoria,) VALUES({receita.Nome}, {receita.Descricao}, {receita.Duracao}, {receita.Categoria})";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlCommand cmd = new SqlCommand(query, conn);
-
-            cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
-            cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
-            cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
-            cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
-
-            conn.Open();
-            int result = cmd.ExecuteNonQuery();
-
-            if (result < 0)
+            using (SqlConnection conn = new SqlConnection(cs))
             {
-                throw new Exception("Ocorreu um erro. A sua receita não foi adicionada");
+            
+                string query = $"INSERT INTO Receita (NomeRec, Descricao, Duracao, Dificuldade, Rating, Categoria, Utilizador) VALUES({receita.Nome}, {receita.Descricao}, {receita.Duracao},{receita._dificuldade}, {receita._rating} {receita.Categoria}, {receita.Utilizador.Id})";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
+                cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
+                cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
+                cmd.Parameters.AddWithValue("@Dificuldade", receita._dificuldade);
+                cmd.Parameters.AddWithValue("@Rating", receita._rating);
+                cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
+                cmd.Parameters.AddWithValue("@Utilizador_id", receita.Utilizador.Id);
+
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Ocorreu um erro. A sua receita não foi adicionada");
+                }
+
             }
-
-            conn.Close();
-
-            //not sure if correct 
-
-
 
         }
 
         public void Update(Receita receita)
         {
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
-            string query = $"UPDATE Receita SET NomeRec = {receita.Nome}, Descricao = {receita.Descricao}, Duracao = {receita.Duracao}, Categoria = {receita.Categoria}) WHERE Receita_id = {receita.Id} ";
+            using (SqlConnection conn = new SqlConnection(cs))
+            {           
+                string query = $"UPDATE Receita SET NomeRec = {receita.Nome}, Descricao = {receita.Descricao}, Duracao = {receita.Duracao}, Categoria = {receita.Categoria}) WHERE Receita_id = {receita.Id} ";
 
-            SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
 
-            cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
-            cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
-            cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
-            cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
+                cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
+                cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
+                cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
+                cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
 
-            conn.Open();
-            int result = cmd.ExecuteNonQuery();
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
 
-            if (result < 0)
-            {
-                throw new Exception("Ocorreu um erro. A sua receita não foi atualizada.");
+                if (result < 0)
+                {
+                    throw new Exception("Ocorreu um erro. A sua receita não foi atualizada.");
+                }
+
             }
-
-            conn.Close();
         }
 
         public void Remove(int id)
         {
-            string cs = $@"data source = RUI\SQLEXPRESS; database = ProjetoFinal; Integrated Security = true";
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
-            string query = $"DELETE FROM Receita WHERE Receita_id = {id} ";
-
-            SqlCommand cmd = new SqlCommand(query, conn);
-            conn.Open();
-            cmd.Parameters.AddWithValue("@Receita_Id", id);
-
-            int result = cmd.ExecuteNonQuery();
-
-            if (result < 0)
+            using (SqlConnection conn = new SqlConnection(cs))
             {
-                throw new Exception("Aconteceu um erro. A receita nao foi apagada.");
-            }
+           
+               string query = $"DELETE FROM Receita WHERE Receita_id = {id} ";
 
-            conn.Close();
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+                cmd.Parameters.AddWithValue("@Receita_Id", id);
+
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Aconteceu um erro. A receita nao foi apagada.");
+                }   
+
+            }
         }
     }
 }
