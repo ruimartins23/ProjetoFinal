@@ -1,5 +1,6 @@
 ﻿using ClassLibrary;
 using System;
+using System.Data;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,11 +21,12 @@ namespace ProjetoFinal.Data.Repositories
             var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
-            {            
+            {
 
-                string query = "SELECT * FROM Ingrediente";
+                SqlCommand cmd = conn.CreateCommand();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandText = "spGetAllIngrediente";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 

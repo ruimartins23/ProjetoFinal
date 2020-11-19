@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using ClassLibrary.Model;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -19,11 +20,12 @@ namespace ProjetoFinal.Data.Repositories
             var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
-            {            
+            {
 
-                string query = "SELECT * FROM Account";
+                SqlCommand cmd = conn.CreateCommand();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandText = "spGetAllAccount";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 

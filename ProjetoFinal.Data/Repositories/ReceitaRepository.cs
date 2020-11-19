@@ -1,5 +1,6 @@
 ﻿using ClassLibrary;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -20,9 +21,11 @@ namespace ProjetoFinal.Data.Repositories
 
             SqlConnection conn = new SqlConnection(cs);
 
-            string query = "SELECT * FROM Receita";
+            SqlCommand cmd = conn.CreateCommand();
 
-            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.CommandText = "spGetAllReceita";
+            cmd.CommandType = CommandType.StoredProcedure;
+
 
             conn.Open();
 
