@@ -86,17 +86,75 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Add(Ingrediente ingrediente)
         {
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+
+                string query = $"INSERT INTO Ingrediente (Produto, Unidade) VALUES({ingrediente.Produto}, {ingrediente.Unidade})";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@Produto", ingrediente.Produto);
+                cmd.Parameters.AddWithValue("@Unidade", ingrediente.Unidade);
+
+
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Ocorreu um erro. O seu ingrediente não foi adicionado.");
+                }
+
+            }
         }
 
         public void Update(Ingrediente ingrediente)
         {
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                string query = $"UPDATE Ingrediente SET Produto = {ingrediente.Produto}, Unidade = {ingrediente.Unidade})";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@Produto", ingrediente.Produto);
+                cmd.Parameters.AddWithValue("@Unidade", ingrediente.Unidade);
+
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Ocorreu um erro. O seu ingrediente não foi atualizado.");
+                }
+
+            }
         }
 
         public void Remove(int id)
         {
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+
+                string query = $"DELETE FROM Ingrediente WHERE Ingrediente_Id = {id} ";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+                cmd.Parameters.AddWithValue("@Ingrediente_Id", id);
+
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Aconteceu um erro. O seu ingrediente não foi apagado.");
+                }
+
+            }
         }
     }
 }

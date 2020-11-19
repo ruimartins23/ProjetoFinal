@@ -79,17 +79,72 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Add(Categoria Categoria)
         {
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+
+                string query = $"INSERT INTO Categoria (ValorCategoria) VALUES({Categoria.ValorCategoria})";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@Produto", Categoria.ValorCategoria);
+
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Ocorreu um erro. A sua categoria não foi adicionada.");
+                }
+
+            }
         }
 
         public void Update(Categoria Categoria)
         {
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                string query = $"UPDATE Categoria SET ValorCategoria = {Categoria.ValorCategoria}";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@ValorCategoria", Categoria.ValorCategoria);
+
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Ocorreu um erro. A sua categoria não foi atualizada.");
+                }
+
+            }
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+
+                string query = $"DELETE FROM Categoria WHERE Categoria_Id = {id} ";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+                cmd.Parameters.AddWithValue("@Categoria_Id", id);
+
+                int result = cmd.ExecuteNonQuery();
+
+                if (result < 0)
+                {
+                    throw new Exception("Aconteceu um erro. A sua categoria não foi eliminada.");
+                }
+
+            }
         }
     }
 }
