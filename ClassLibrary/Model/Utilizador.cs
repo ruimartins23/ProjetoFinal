@@ -10,6 +10,20 @@ namespace ClassLibrary
 {
     public class Utilizador 
     {
+        private bool isAdmin;
+
+        public Utilizador()
+        {
+        }
+
+        public Utilizador(int id, string nome, string email, DateTime birthdate, bool isAdmin)
+        {
+            Id = id;
+            Nome = nome;
+            Email = email;
+            BirthDate = birthdate;
+            this.isAdmin = isAdmin;
+        }
 
         public int Id { get; set; }
 

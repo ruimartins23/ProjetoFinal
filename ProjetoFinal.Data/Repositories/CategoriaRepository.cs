@@ -49,11 +49,12 @@ namespace ProjetoFinal.Data.Repositories
             var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
-            {           
+            {
 
-                string query = $"SELECT * FROM Categoria WHERE Categoria_Id = {id} ";
+                SqlCommand cmd = conn.CreateCommand();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandText = "spGetCategoriaById";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 

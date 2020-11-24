@@ -55,11 +55,12 @@ namespace ProjetoFinal.Data.Repositories
             var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
-            {            
+            {
 
-                string query = $"SELECT * FROM Ingrediente WHERE Ingrediente_id = {id} ";
+                SqlCommand cmd = conn.CreateCommand();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandText = "spGetIngredienteById";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 
@@ -76,8 +77,7 @@ namespace ProjetoFinal.Data.Repositories
                     
                     
                 }
-                return ingrediente;
-
+                    return ingrediente;
                 }
             
 

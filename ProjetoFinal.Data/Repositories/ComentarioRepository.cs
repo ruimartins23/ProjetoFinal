@@ -52,11 +52,10 @@ namespace ProjetoFinal.Data.Repositories
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-            
+                SqlCommand cmd = conn.CreateCommand();
 
-                string query = $"SELECT * FROM Comentario WHERE Comentario_id = {id} ";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandText = "spGetComentarioById";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 

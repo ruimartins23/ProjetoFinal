@@ -37,13 +37,13 @@ namespace ProjetoFinal.Data.Repositories
                 string nome = dr.GetString(1);
                 string descricao = dr.GetString(2);
                 TimeSpan duracao = dr.GetTimeSpan(3);
+                Rating rating = (Rating)dr.GetByte(4);
+                Dificuldade dificuldade = (Dificuldade)dr.GetByte(5);
                 bool validado = dr.GetBoolean(9);
-                byte _rating = (byte)(Rating)dr.GetByte(5);
-                byte _dificuldade = (byte)(Dificuldade)dr.GetByte(6); // ERRADO CORRIGIR
 
 
 
-                Receita recipes = new Receita(id, nome, descricao, duracao, validado , _dificuldade , Dificulda); // ADICIONAR ENUMS? NAO CONSIGO
+                Receita recipes = new Receita(id, nome, descricao, duracao, validado, rating, dificuldade);
                 receitas.Add(recipes);
 
             }
@@ -73,12 +73,12 @@ namespace ProjetoFinal.Data.Repositories
 
                     Receita receita = new Receita();
                     {
-                        id = dr.GetInt32(0);
+                        receita.Id = dr.GetInt32(0);
                         receita.Nome = dr.GetString(1);
                         receita.Descricao = dr.GetString(2);
                         receita.Duracao = dr.GetTimeSpan(3);
                         receita._dificuldade = (Dificuldade)dr.GetInt32(4);
-                        receita._rating = (Rating)dr.GetInt32(5); // FIX THIS SHIT 
+                        receita._rating = (Rating)dr.GetInt32(5);
 
 
                     }

@@ -54,11 +54,10 @@ namespace ProjetoFinal.Data.Repositories
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-            
+                SqlCommand cmd = conn.CreateCommand();
 
-                string query = $"SELECT * FROM Account WHERE Account_Id = {id} ";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandText = "spGetAccountById";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 
@@ -72,11 +71,10 @@ namespace ProjetoFinal.Data.Repositories
                         Account.Id = dr.GetInt32(0);
                         Account.Username = dr.GetString(1);
                         Account.Password = dr.GetString(2);
-                    // utilizador?
-
-                        return Account;
+                       
                     }
-                
+
+                    return Account;
                 }
 
                 throw new Exception("O ID inserido nao existe");
@@ -97,7 +95,7 @@ namespace ProjetoFinal.Data.Repositories
 
                 cmd.Parameters.AddWithValue("@Username", Account.Username);
                 cmd.Parameters.AddWithValue("@Password", Account.Password);
-                cmd.Parameters.AddWithValue("@Utilizadpr_Id", Account.Utilizador.Id);
+                cmd.Parameters.AddWithValue("@Utilizador_Id", Account.Utilizador.Id);
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
