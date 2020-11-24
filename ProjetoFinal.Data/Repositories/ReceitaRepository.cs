@@ -51,16 +51,18 @@ namespace ProjetoFinal.Data.Repositories
             return receitas;
         }
 
-        public Receita GetById(int Id)
+        public Receita GetById(int id)
         {
             var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
-            { 
-           
-                string query = $"SELECT * FROM Receita WHERE Receita_id = {Id} ";
+            {
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+
+                SqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = "spGetReceitaById";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 
@@ -71,7 +73,7 @@ namespace ProjetoFinal.Data.Repositories
 
                     Receita receita = new Receita();
                     {
-                        receita.Id = dr.GetInt32(0);
+                        id = dr.GetInt32(0);
                         receita.Nome = dr.GetString(1);
                         receita.Descricao = dr.GetString(2);
                         receita.Duracao = dr.GetTimeSpan(3);
@@ -85,7 +87,7 @@ namespace ProjetoFinal.Data.Repositories
                  }
 
 
-                throw new Exception("Nao existe nenhuma receita com o ID " + Id);
+                throw new Exception("Nao existe nenhuma receita com o ID " + id);
 
             }
         }

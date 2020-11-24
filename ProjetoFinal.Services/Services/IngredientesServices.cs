@@ -15,6 +15,8 @@ namespace ProjetoFinal.Services.Services
         public IngredientesServices()
         {
             _repo = new IngredienteRepository();
+
+            _
         }
 
         public List<Ingrediente> GetAll()

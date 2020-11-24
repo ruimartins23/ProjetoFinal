@@ -13,6 +13,11 @@ namespace ClassLibrary.Model
         public string Password { get; set; }
         public Utilizador Utilizador { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Id} {Username} {Password}
+        }
+
         public Account(int id, string username, string password) //add utilizador?
         {
             Id = id;

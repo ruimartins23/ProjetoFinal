@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -48,10 +49,39 @@ namespace ProjetoFinal.Data.Repositories
             return Utilizadores;
         }
 
-        public Utilizador GetById(int Id)
+        public Utilizador GetById(int id)
         {
-            return null;
+            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+
+                string query = $"SELECT * FROM Ingrediente WHERE Ingrediente_id = {id} ";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+
+                    Utilizador utilizador = new Utilizador();
+                    {
+
+
+                    }
+                    return utilizador;
+
+                }
+
+
+                throw new Exception("Nao existe nenhum ingrediente com o ID " + id);
+
+            }
         }
+    }
 
         public void Add(Utilizador utilizador)
         {
