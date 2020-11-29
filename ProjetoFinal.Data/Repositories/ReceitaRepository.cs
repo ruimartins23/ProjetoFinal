@@ -13,23 +13,25 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class ReceitaRepository
     {
+        public string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
         public List<Receita> GetAll()
         {
             List<Receita> receitas = new List<Receita>();
 
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(cs);
+            using (SqlConnection conn = new SqlConnection(cs))
+            {            
 
-            SqlCommand cmd = conn.CreateCommand();
+                SqlCommand cmd = conn.CreateCommand();
 
-            cmd.CommandText = "spGetAllReceita";
-            cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "spGetAllReceita";
+                cmd.CommandType = CommandType.StoredProcedure;
 
 
-            conn.Open();
+                conn.Open();
 
-            SqlDataReader dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
             while (dr.Read())
             {
@@ -48,12 +50,14 @@ namespace ProjetoFinal.Data.Repositories
 
             }
             conn.Close();
+
             return receitas;
+
+            }
         }
 
         public Receita GetById(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -68,10 +72,11 @@ namespace ProjetoFinal.Data.Repositories
 
                 SqlDataReader dr = cmd.ExecuteReader();
 
-                 while (dr.Read())
+                Receita receita = new Receita();
+
+                while (dr.Read())
                  {
 
-                    Receita receita = new Receita();
                     {
                         receita.Id = dr.GetInt32(0);
                         receita.Nome = dr.GetString(1);
@@ -80,39 +85,83 @@ namespace ProjetoFinal.Data.Repositories
                         receita._dificuldade = (Dificuldade)dr.GetInt32(4);
                         receita._rating = (Rating)dr.GetInt32(5);
 
-
                     }
-                    return receita;
+
 
                  }
 
+                int result = cmd.ExecuteNonQuery();
 
-                throw new Exception("Nao existe nenhuma receita com o ID " + id);
+                if (result < 0)
+                {
+                    throw new Exception("Nao existe nenhuma receita com o ID " + id);
+                }
 
+                return receita;
             }
         }
 
         public void Add(Receita receita)
         {
 
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
-
             using (SqlConnection conn = new SqlConnection(cs))
             {
-            
-                string query = $"INSERT INTO Receita (NomeRec, Descricao, Duracao, Dificuldade, Rating, Categoria, Utilizador) VALUES({receita.Nome}, {receita.Descricao}, {receita.Duracao},{receita._dificuldade}, {receita._rating} {receita.Categoria}, {receita.Utilizador.Id})";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spAddReceita";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
-                cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
-                cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
-                cmd.Parameters.AddWithValue("@Dificuldade", receita._dificuldade);
-                cmd.Parameters.AddWithValue("@Rating", receita._rating);
-                cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
-                cmd.Parameters.AddWithValue("@Utilizador_id", receita.Utilizador.Id);
+                SqlParameter Id = new SqlParameter();
+                Id.Value = receita.Id;
+                Id.ParameterName = "@Receita_id";
+                Id.SqlDbType = SqlDbType.Int;
+                Id.Direction = ParameterDirection.Output;
+
+                SqlParameter NomeRec = new SqlParameter();
+                NomeRec.Value = receita.Nome;
+                NomeRec.ParameterName = "@NomeRec";
+                NomeRec.SqlDbType = SqlDbType.NVarChar;
+                NomeRec.Direction = ParameterDirection.Input;
+
+                SqlParameter Descricao = new SqlParameter();
+                Descricao.Value = receita.Descricao;
+                Descricao.ParameterName = "@Descricao";
+                Descricao.SqlDbType = SqlDbType.NText;
+                Descricao.Direction = ParameterDirection.Input;
+
+                SqlParameter Duracao = new SqlParameter();
+                Duracao.Value = receita.Duracao;
+                Duracao.ParameterName = "@Duracao";
+                Duracao.SqlDbType = SqlDbType.Bit;
+                Duracao.Direction = ParameterDirection.Input;
+
+                SqlParameter Rating = new SqlParameter();
+                Rating.Value = receita._rating;
+                Rating.ParameterName = "@Rating";
+                Rating.SqlDbType = SqlDbType.Bit;
+                Rating.Direction = ParameterDirection.Input;
+
+                SqlParameter Categoria = new SqlParameter();
+                Categoria.Value = receita.Categoria;
+                Categoria.ParameterName = "@Categoria";
+                Categoria.SqlDbType = SqlDbType.Bit;
+                Categoria.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(Id);
+                cmd.Parameters.Add(NomeRec);
+                cmd.Parameters.Add(Descricao);
+                cmd.Parameters.Add(Duracao);
+                cmd.Parameters.Add(Rating);
+                cmd.Parameters.Add(Categoria);
+
 
                 conn.Open();
+
+                int idRec = (int)Id.Value;
+
+                idRec = receita.Id;
+
                 int result = cmd.ExecuteNonQuery();
 
                 if (result < 0)
@@ -126,18 +175,55 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Update(Receita receita)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
-            {           
-                string query = $"UPDATE Receita SET NomeRec = {receita.Nome}, Descricao = {receita.Descricao}, Duracao = {receita.Duracao}, Categoria = {receita.Categoria}) WHERE Receita_id = {receita.Id} ";
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spUpdateReceita";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter Id = new SqlParameter();
+                Id.Value = receita.Id;
+                Id.ParameterName = "@Receita_id";
+                Id.SqlDbType = SqlDbType.Int;
+                Id.Direction = ParameterDirection.Output;
 
-                cmd.Parameters.AddWithValue("@NomeRec", receita.Nome);
-                cmd.Parameters.AddWithValue("@Descricao", receita.Descricao);
-                cmd.Parameters.AddWithValue("@Duracao", receita.Duracao);
-                cmd.Parameters.AddWithValue("@Categoria", receita.Categoria);
+                SqlParameter NomeRec = new SqlParameter();
+                NomeRec.Value = receita.Nome;
+                NomeRec.ParameterName = "@NomeRec";
+                NomeRec.SqlDbType = SqlDbType.NVarChar;
+                NomeRec.Direction = ParameterDirection.Input;
+
+                SqlParameter Descricao = new SqlParameter();
+                Descricao.Value = receita.Descricao;
+                Descricao.ParameterName = "@Descricao";
+                Descricao.SqlDbType = SqlDbType.NText;
+                Descricao.Direction = ParameterDirection.Input;
+
+                SqlParameter Duracao = new SqlParameter();
+                Duracao.Value = receita.Duracao;
+                Duracao.ParameterName = "@Duracao";
+                Duracao.SqlDbType = SqlDbType.Bit;
+                Duracao.Direction = ParameterDirection.Input;
+
+                SqlParameter Rating = new SqlParameter();
+                Rating.Value = receita._rating;
+                Rating.ParameterName = "@Rating";
+                Rating.SqlDbType = SqlDbType.Bit;
+                Rating.Direction = ParameterDirection.Input;
+
+                SqlParameter Categoria = new SqlParameter();
+                Categoria.Value = receita.Categoria;
+                Categoria.ParameterName = "@Categoria";
+                Categoria.SqlDbType = SqlDbType.NVarChar;
+                Categoria.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(NomeRec);
+                cmd.Parameters.Add(Descricao);
+                cmd.Parameters.Add(Rating);
+                cmd.Parameters.Add(Duracao);
+                cmd.Parameters.Add(Categoria);
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
@@ -152,23 +238,25 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Remove(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-           
-               string query = $"DELETE FROM Receita WHERE Receita_id = {id} ";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spRemoveReceita";
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 conn.Open();
-                cmd.Parameters.AddWithValue("@Receita_Id", id);
+
+                cmd.Parameters.AddWithValue("@Receita_id", id);
 
                 int result = cmd.ExecuteNonQuery();
 
                 if (result < 0)
                 {
-                    throw new Exception("Aconteceu um erro. A receita nao foi apagada.");
-                }   
+                    throw new Exception("Ocorreu um erro. A sua receita não foi apagada.");
+                }
 
             }
         }

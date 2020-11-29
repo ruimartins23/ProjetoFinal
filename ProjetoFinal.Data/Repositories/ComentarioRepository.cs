@@ -14,9 +14,9 @@ namespace ProjetoFinal.Data.Repositories
     {
         public List<Comentario> GetAll()
         {
-            List<Comentario> temp = new List<Comentario>();
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+            List<Comentario> temp = new List<Comentario>();
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -84,18 +84,56 @@ namespace ProjetoFinal.Data.Repositories
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-           
-                string query = $"INSERT INTO Comentario (ValorComentario, DatePost, Receita_Id, Utilizador_Id ) VALUES ({Comentario.ValorComentario}, {Comentario.DataPost}, {Comentario.Receita.Id},{Comentario.Utilizador.Id}";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spAddComentario";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@ValorComentario", Comentario.ValorComentario);
-                cmd.Parameters.AddWithValue("@DatePost", Comentario.DataPost);
-                cmd.Parameters.AddWithValue("@Receita_Id", Comentario.Receita.Id);
-                cmd.Parameters.AddWithValue("@Utilizador_Id", Comentario.Utilizador.Id);
+                SqlParameter ValorComentario = new SqlParameter();
+                ValorComentario.Value = Comentario.ValorComentario;
+                ValorComentario.ParameterName = "@ValorComentario";
+                ValorComentario.SqlDbType = SqlDbType.NText;
+                ValorComentario.Direction = ParameterDirection.Input;
+
+                SqlParameter UtilizadorId = new SqlParameter();
+                UtilizadorId.Value = Comentario.Utilizador.Id;
+                UtilizadorId.ParameterName = "@Utilizador_id";
+                UtilizadorId.SqlDbType = SqlDbType.Int;
+                UtilizadorId.Direction = ParameterDirection.Input;
+
+                SqlParameter ReceitaId = new SqlParameter();
+                ReceitaId.Value = Comentario.Receita.Id;
+                ReceitaId.ParameterName = "@ReceitaId";
+                ReceitaId.SqlDbType = SqlDbType.Int;
+                ReceitaId.Direction = ParameterDirection.Input;
+
+                SqlParameter DatePost = new SqlParameter();
+                DatePost.Value = Comentario.DataPost;
+                DatePost.ParameterName = "@DatePost";
+                DatePost.SqlDbType = SqlDbType.DateTime;
+                DatePost.Direction = ParameterDirection.Input;
+
+                SqlParameter ComentId = new SqlParameter();
+                ComentId.Value = Comentario.Id;
+                ComentId.ParameterName = "@Comentario_id";
+                ComentId.SqlDbType = SqlDbType.Int;
+                ComentId.Direction = ParameterDirection.Output;
+
+
+                cmd.Parameters.Add(ValorComentario);
+                cmd.Parameters.Add(UtilizadorId);
+                cmd.Parameters.Add(ReceitaId);
+                cmd.Parameters.Add(DatePost);
+
+
+
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
+                int id = (int)ComentId.Value;
+
+                Comentario.Id = id;
 
                 if (result < 0)
                 {
@@ -111,15 +149,25 @@ namespace ProjetoFinal.Data.Repositories
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-            
-                string query = $"UPDATE Comentario SET ValorComentario = {Comentario.ValorComentario}, Receita_Id = {Comentario.Receita.Id}, Utilizador_id = {Comentario.Utilizador.Id}, DatePost = {Comentario.DataPost}) WHERE Comentario_id = {Comentario.Id} ";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spUpdateComentario";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@ValorComentario", Comentario.ValorComentario);
-                cmd.Parameters.AddWithValue("@Receita_Id", Comentario.Receita.Id);
-                cmd.Parameters.AddWithValue("@Utilizador_Id", Comentario.Utilizador.Id);
-                cmd.Parameters.AddWithValue("@DatePost", Comentario.DataPost);
+                SqlParameter idCom = new SqlParameter();
+                idCom.Value = Comentario.Id;
+                idCom.ParameterName = "@Comentario_id";
+                idCom.SqlDbType = SqlDbType.Int;
+                idCom.Direction = ParameterDirection.Input;
+
+                SqlParameter ValCom = new SqlParameter();
+                ValCom.Value = Comentario.ValorComentario;
+                ValCom.ParameterName = "@ValorComentario";
+                ValCom.SqlDbType = SqlDbType.NText;
+                ValCom.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(ValCom);
 
                 conn.Open();
 
@@ -142,10 +190,11 @@ namespace ProjetoFinal.Data.Repositories
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-            
-                string query = $"DELETE FROM Comentario WHERE Comentario_Id = {id} ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spDeleteComentario";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
 
                 cmd.Parameters.AddWithValue("@Comentario_Id", id);

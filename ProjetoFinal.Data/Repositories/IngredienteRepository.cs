@@ -13,12 +13,11 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class IngredienteRepository
     {
-
+        string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
         public List<Ingrediente> GetAll()
         {
             List<Ingrediente> temp = new List<Ingrediente>();
 
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -51,8 +50,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public Ingrediente GetById(int id)
         {
-
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -88,17 +85,40 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Add(Ingrediente ingrediente)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                string query = $"INSERT INTO Ingrediente (Produto, Unidade) VALUES({ingrediente.Produto}, {ingrediente.Unidade})";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spAddIngrediente";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@Produto", ingrediente.Produto);
-                cmd.Parameters.AddWithValue("@Unidade", ingrediente.Unidade);
+                SqlParameter Produto = new SqlParameter();
+                Produto.Value = ingrediente.Produto;
+                Produto.ParameterName = "@Produto";
+                Produto.SqlDbType = SqlDbType.NVarChar;
+                Produto.Direction = ParameterDirection.Input;
+
+                SqlParameter Unidade = new SqlParameter();
+                Unidade.Value = ingrediente.Unidade;
+                Unidade.ParameterName = "@Unidade";
+                Unidade.SqlDbType = SqlDbType.NVarChar;
+                Unidade.Direction = ParameterDirection.Input;
+ 
+                SqlParameter Id = new SqlParameter();
+                Id.Value = ingrediente.Id;
+                Id.ParameterName = "@Ingrediente_id";
+                Id.SqlDbType = SqlDbType.Int;
+                Id.Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add(Unidade);
+                cmd.Parameters.Add(Produto);
+
+                int id = (int)Id.Value;
+
+                ingrediente.Id = id;
 
 
                 conn.Open();
@@ -114,18 +134,36 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Update(Ingrediente ingrediente)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
-
             using (SqlConnection conn = new SqlConnection(cs))
             {
-                string query = $"UPDATE Ingrediente SET Produto = {ingrediente.Produto}, Unidade = {ingrediente.Unidade})";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spUpdateIngrediente";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter Produto = new SqlParameter();
+                Produto.Value = ingrediente.Produto;
+                Produto.ParameterName = "@Produto";
+                Produto.SqlDbType = SqlDbType.NVarChar;
+                Produto.Direction = ParameterDirection.Input;
 
-                cmd.Parameters.AddWithValue("@Produto", ingrediente.Produto);
-                cmd.Parameters.AddWithValue("@Unidade", ingrediente.Unidade);
+                SqlParameter Unidade = new SqlParameter();
+                Unidade.Value = ingrediente.Unidade;
+                Unidade.ParameterName = "@Unidade";
+                Unidade.SqlDbType = SqlDbType.NVarChar;
+                Unidade.Direction = ParameterDirection.Input;
+
+                SqlParameter Id = new SqlParameter();
+                Id.Value = ingrediente.Id;
+                Id.ParameterName = "@Ingrediente_id";
+                Id.SqlDbType = SqlDbType.Int;
+                Id.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(Unidade);
+                cmd.Parameters.Add(Produto);
 
                 conn.Open();
+
                 int result = cmd.ExecuteNonQuery();
 
                 if (result < 0)
@@ -138,16 +176,18 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Remove(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                string query = $"DELETE FROM Ingrediente WHERE Ingrediente_Id = {id} ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spDeleteIngrediente";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
-                cmd.Parameters.AddWithValue("@Ingrediente_Id", id);
+
+                cmd.Parameters.AddWithValue("@Ingrediente_id", id);
 
                 int result = cmd.ExecuteNonQuery();
 

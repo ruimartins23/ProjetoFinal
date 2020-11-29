@@ -12,11 +12,12 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class UtilizadorRepository
     {
+        string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
         public List<Utilizador> GetAll()
         {
             List<Utilizador> temp = new List<Utilizador>();
 
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -51,8 +52,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public Utilizador GetById(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
-
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
@@ -89,53 +88,117 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Add(Utilizador utilizador)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-                string query = $"INSERT INTO Utilizador (NomeUser, Email, Password, BirthDate, IsRegisted, IsAdmin) VALUES ({utilizador.Nome}, {utilizador.Email}, {utilizador.Password}, {utilizador.BirthDate}, {utilizador.Registado}, {utilizador.Admin})";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spAddUser";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@NomeUser", utilizador.Nome);
-                cmd.Parameters.AddWithValue("@Email", utilizador.Email);
-                cmd.Parameters.AddWithValue("@Password", utilizador.Password);
-                cmd.Parameters.AddWithValue("@Birthdate", utilizador.BirthDate);
-                cmd.Parameters.AddWithValue("@IsRegisted", utilizador.Registado);
-                cmd.Parameters.AddWithValue("@IsAdmin", utilizador.Admin);
+                SqlParameter NomeUser = new SqlParameter();
+                NomeUser.Value = utilizador.Nome;
+                NomeUser.ParameterName = "@NomeUser";
+                NomeUser.SqlDbType = SqlDbType.NVarChar;
+                NomeUser.Direction = ParameterDirection.Input;
+
+                SqlParameter Email = new SqlParameter();
+                Email.Value = utilizador.Email;
+                Email.ParameterName = "@Email";
+                Email.SqlDbType = SqlDbType.NVarChar;
+                Email.Direction = ParameterDirection.Input;
+
+                SqlParameter Password = new SqlParameter();
+                Password.Value = utilizador.Password;
+                Password.ParameterName = "@Password";
+                Password.SqlDbType = SqlDbType.NVarChar;
+                Password.Direction = ParameterDirection.Input;
+
+                SqlParameter BirthDate = new SqlParameter();
+                BirthDate.Value = utilizador.Password;
+                BirthDate.ParameterName = "@BirthDate";
+                BirthDate.SqlDbType = SqlDbType.NVarChar;
+                BirthDate.Direction = ParameterDirection.Input;
+
+                SqlParameter idPar = new SqlParameter();
+                idPar.ParameterName = "@Utilizador_id";
+                idPar.SqlDbType = SqlDbType.Int;
+                idPar.Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add(NomeUser);
+                cmd.Parameters.Add(Email);
+                cmd.Parameters.Add(Password);
+                cmd.Parameters.Add(BirthDate);
+                cmd.Parameters.Add(idPar);
 
                 conn.Open();
 
                 int result = cmd.ExecuteNonQuery();
 
+                int id = (int)idPar.Value;
+
+                utilizador.Id = id;
+
                 if (result < 0)
                 {
-                    throw new Exception("Ocorreu um erro. O utilizador não foi adicionado.");
+                    throw new Exception("O seu utilizador não foi adicionado.");
                 }
-
-
 
             }
         }
 
         public void Update(Utilizador utilizador)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-                string query = $"UPDATE Utilizador SET NomeUser = {utilizador.Nome}, Email = {utilizador.Email}, Password = {utilizador.Password}, BirthDate = {utilizador.BirthDate}, IsRegisted = {utilizador.Registado}, IsAdmin = {utilizador.Admin};";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spUpdateUser";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter Id = new SqlParameter();
+                Id.Value = utilizador.Id;
+                Id.ParameterName = "Utilizador_id";
+                Id.SqlDbType = SqlDbType.Int;
+                Id.Direction = ParameterDirection.Input;
 
-                cmd.Parameters.AddWithValue("@NomeUser", utilizador.Nome);
-                cmd.Parameters.AddWithValue("@Email", utilizador.Email);
-                cmd.Parameters.AddWithValue("@Password", utilizador.Password);
-                cmd.Parameters.AddWithValue("@Birthdate", utilizador.BirthDate);
-                cmd.Parameters.AddWithValue("@IsRegisted", utilizador.Registado);
-                cmd.Parameters.AddWithValue("@IsAdmin", utilizador.Admin);
+                SqlParameter NomeUser = new SqlParameter();
+                NomeUser.Value = utilizador.Nome;
+                NomeUser.ParameterName = "@NomeUser";
+                NomeUser.SqlDbType = SqlDbType.NVarChar;
+                NomeUser.Direction = ParameterDirection.Input;
+
+                SqlParameter Email = new SqlParameter();
+                Email.Value = utilizador.Email;
+                Email.ParameterName = "@Email";
+                Email.SqlDbType = SqlDbType.NVarChar;
+                Email.Direction = ParameterDirection.Input;
+
+                SqlParameter Password = new SqlParameter();
+                Password.Value = utilizador.Password;
+                Password.ParameterName = "@Password";
+                Password.SqlDbType = SqlDbType.NVarChar;
+                Password.Direction = ParameterDirection.Input;
+
+                SqlParameter BirthDate = new SqlParameter();
+                BirthDate.Value = utilizador.Password;
+                BirthDate.ParameterName = "@BirthDate";
+                BirthDate.SqlDbType = SqlDbType.NVarChar;
+                BirthDate.Direction = ParameterDirection.Input;
+
+
+
+                cmd.Parameters.Add(NomeUser);
+                cmd.Parameters.Add(Email);
+                cmd.Parameters.Add(Password);
+                cmd.Parameters.Add(BirthDate);
+
+                conn.Open();
 
                 int result = cmd.ExecuteNonQuery();
+
 
                 if (result < 0)
                 {
@@ -146,13 +209,13 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Remove(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-                string query = $"DELETE FROM Utilizador WHERE Utilizador_id = {id}";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spDeleteUser";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
 
