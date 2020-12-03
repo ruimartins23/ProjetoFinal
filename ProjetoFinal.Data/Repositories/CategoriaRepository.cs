@@ -12,11 +12,12 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class CategoriaRepository
     {
+        string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
         public List<Categoria> GetAll()
         {
-            List<Categoria> temp = new List<Categoria>();
 
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+            List<Categoria> temp = new List<Categoria>();
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -46,7 +47,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public Categoria GetById(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -81,19 +81,39 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Add(Categoria Categoria)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                string query = $"INSERT INTO Categoria (ValorCategoria) VALUES({Categoria.ValorCategoria})";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spAddCategoria";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter ValCat = new SqlParameter();
+                ValCat.Value = Categoria.ValorCategoria;
+                ValCat.ParameterName = "@ValorCategoria";
+                ValCat.SqlDbType = SqlDbType.NVarChar;
+                ValCat.Direction = ParameterDirection.Input;
 
-                cmd.Parameters.AddWithValue("@Produto", Categoria.ValorCategoria);
+                SqlParameter idCat = new SqlParameter();
+                idCat.Value = Categoria.Id;
+                idCat.ParameterName = "@Categoria_id";
+                idCat.SqlDbType = SqlDbType.Int;
+                idCat.Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add(ValCat);
+                cmd.Parameters.Add(idCat);
+
+
+
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
+
+                int id = (int)idCat.Value;
+                id = Categoria.Id;
+
 
                 if (result < 0)
                 {
@@ -105,15 +125,28 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Update(Categoria Categoria)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-                string query = $"UPDATE Categoria SET ValorCategoria = {Categoria.ValorCategoria}";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spUpdateCategoria";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter ValCat = new SqlParameter();
+                ValCat.Value = Categoria.ValorCategoria;
+                ValCat.ParameterName = "@ValorCategoria";
+                ValCat.SqlDbType = SqlDbType.NVarChar;
+                ValCat.Direction = ParameterDirection.Input;
 
-                cmd.Parameters.AddWithValue("@ValorCategoria", Categoria.ValorCategoria);
+                SqlParameter idCat = new SqlParameter();
+                idCat.Value = Categoria.Id;
+                idCat.ParameterName = "@Categoria_id";
+                idCat.SqlDbType = SqlDbType.Int;
+                idCat.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(ValCat);
+                cmd.Parameters.Add(idCat);
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
@@ -128,16 +161,18 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Remove(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                string query = $"DELETE FROM Categoria WHERE Categoria_Id = {id} ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spDeleteCategoria";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
-                cmd.Parameters.AddWithValue("@Categoria_Id", id);
+
+                cmd.Parameters.AddWithValue("@Categoria_id", id);
 
                 int result = cmd.ExecuteNonQuery();
 

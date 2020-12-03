@@ -19,29 +19,28 @@ namespace ProjetoFinal.Services.Services
 
         public List<Receita> GetAll()
         {
-            return null;
+            return _repo.GetAll();
         }
 
-        public Receita GetById(int Id)
+        public Receita GetById(int id)
         {
-            return null;
+            return _repo.GetById(id);
         }
 
         public void Add(Receita receita)
         {
-
+            _repo.Add(receita);
         }
 
         public void Update(Receita receita)
         {
-
+            _repo.Update(receita);
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
-
+            _repo.Remove(id);
         }
-
 
     }
 }

@@ -15,7 +15,7 @@ namespace ClassLibrary.Model
 
         public override string ToString()
         {
-            return $"{Id} {Username} {Password}
+            return base.ToString();
         }
 
         public Account(int id, string username, string password) //add utilizador?

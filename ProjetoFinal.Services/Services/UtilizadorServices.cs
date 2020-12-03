@@ -19,27 +19,27 @@ namespace ProjetoFinal.Services.Services
 
         public List<Utilizador> GetAll()
         {
-            return null;
+            return _repo.GetAll();
         }
 
-        public Utilizador GetById(int Id)
+        public Utilizador GetById(int id)
         {
-            return null;
+            return _repo.GetById(id);
         }
 
         public void Add(Utilizador utilizador)
         {
-
+            _repo.Add(utilizador);
         }
 
         public void Update(Utilizador utilizador)
         {
-
+            _repo.Update(utilizador);
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
-
+            _repo.Remove(id);
         }
 
     }

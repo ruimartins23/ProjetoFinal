@@ -12,9 +12,10 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class ComentarioRepository
     {
+        string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
         public List<Comentario> GetAll()
         {
-            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             List<Comentario> temp = new List<Comentario>();
 
@@ -47,7 +48,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public Comentario GetById(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -73,15 +73,13 @@ namespace ProjetoFinal.Data.Repositories
                     return Comentario;
                 }
             
-            throw new Exception("Nao existe nenhum Comentario com o ID " + id);
+                throw new Exception("Nao existe nenhum Comentario com o ID " + id);
 
             }
         }
 
         public void Add(Comentario Comentario)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
-
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
@@ -131,6 +129,7 @@ namespace ProjetoFinal.Data.Repositories
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
+
                 int id = (int)ComentId.Value;
 
                 Comentario.Id = id;
@@ -145,8 +144,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Update(Comentario Comentario)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
-
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
@@ -173,11 +170,11 @@ namespace ProjetoFinal.Data.Repositories
 
                 int result = cmd.ExecuteNonQuery();
 
-            if (result < 0)
-            {
+                if (result < 0)
+                {
                 throw new Exception("Aconteceu um erro. O seu comentário não foi atualizado.");
 
-            }
+                }
 
             }
 
@@ -185,7 +182,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Remove(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {

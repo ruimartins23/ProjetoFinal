@@ -14,6 +14,7 @@ namespace ProjetoFinal.Data.Repositories
     public class IngredienteRepository
     {
         string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
         public List<Ingrediente> GetAll()
         {
             List<Ingrediente> temp = new List<Ingrediente>();

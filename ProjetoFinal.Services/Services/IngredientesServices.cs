@@ -15,33 +15,32 @@ namespace ProjetoFinal.Services.Services
         public IngredientesServices()
         {
             _repo = new IngredienteRepository();
-
-            _
+            
         }
 
         public List<Ingrediente> GetAll()
         {
-            return null;
+            return _repo.GetAll();
         }
 
-        public Ingrediente GetById(int Id)
+        public Ingrediente GetById(int id)
         {
-            return null;
+            return _repo.GetById(id);
         }
 
         public void Add(Ingrediente ingrediente)
         {
-
+             _repo.Add(ingrediente);
         }
 
         public void Update(Ingrediente ingrediente)
         {
-
+            _repo.Update(ingrediente);
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
-
+            _repo.Remove(id);
         }
     }
 }

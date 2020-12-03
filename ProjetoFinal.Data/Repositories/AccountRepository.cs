@@ -13,11 +13,11 @@ namespace ProjetoFinal.Data.Repositories
 {
     public class AccountRepository
     {
+        string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
         public List<Account> GetAll()
         {
             List<Account> temp = new List<Account>();
-
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -49,7 +49,6 @@ namespace ProjetoFinal.Data.Repositories
 
         public Account GetById(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -77,25 +76,50 @@ namespace ProjetoFinal.Data.Repositories
                     return Account;
                 }
 
-                throw new Exception("O ID inserido nao existe");
+                throw new Exception("A account com o Id" + id + " não existe" );
 
             }
 
         }   
         public void Add(Account Account)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
-
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                string query = $"INSERT INTO Account (Username, Password, Utilizador_Id) VALUES({Account.Username}, {Account.Password}, {Account.Utilizador.Id})";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spAddAccount";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter UserName = new SqlParameter();
+                UserName.Value = Account.Username;
+                UserName.ParameterName = "@Username";
+                UserName.SqlDbType = SqlDbType.NVarChar;
+                UserName.Direction = ParameterDirection.Input;
 
-                cmd.Parameters.AddWithValue("@Username", Account.Username);
-                cmd.Parameters.AddWithValue("@Password", Account.Password);
-                cmd.Parameters.AddWithValue("@Utilizador_Id", Account.Utilizador.Id);
+                SqlParameter Password = new SqlParameter();
+                Password.Value = Account.Password;
+                Password.ParameterName = "@Password";
+                Password.SqlDbType = SqlDbType.NVarChar;
+                Password.Direction = ParameterDirection.Input;
+
+                SqlParameter UtilizadorId = new SqlParameter();
+                UtilizadorId.Value = Account.Utilizador.Id;
+                UtilizadorId.ParameterName = "@Utilizador_id";
+                UtilizadorId.SqlDbType = SqlDbType.Int;
+                UtilizadorId.Direction = ParameterDirection.Input;
+
+                SqlParameter AccountId = new SqlParameter();
+                AccountId.Value = Account.Id;
+                AccountId.ParameterName = "@Account_id";
+                AccountId.SqlDbType = SqlDbType.Int;
+                AccountId.Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add(UserName);
+                cmd.Parameters.Add(Password);
+                cmd.Parameters.Add(UtilizadorId);
+                cmd.Parameters.Add(AccountId); // not sure if needed
+
 
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
@@ -110,20 +134,50 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Update(Account Account)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
-                string query = $"UPDATE Account SET Username = {Account.Username}, Password = {Account.Password}, Utilizador_Id = {Account.Utilizador.Id}";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spUpdateAccount";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlParameter UserName = new SqlParameter();
+                UserName.Value = Account.Username;
+                UserName.ParameterName = "@Username";
+                UserName.SqlDbType = SqlDbType.NVarChar;
+                UserName.Direction = ParameterDirection.Input;
 
-                cmd.Parameters.AddWithValue("@Username", Account.Username);
-                cmd.Parameters.AddWithValue("@Password", Account.Password);
-                cmd.Parameters.AddWithValue("@Utilizador_Id", Account.Utilizador.Id);
+                SqlParameter Password = new SqlParameter();
+                Password.Value = Account.Password;
+                Password.ParameterName = "@Password";
+                Password.SqlDbType = SqlDbType.NVarChar;
+                Password.Direction = ParameterDirection.Input;
+
+                SqlParameter UtilizadorId = new SqlParameter();
+                UtilizadorId.Value = Account.Utilizador.Id;
+                UtilizadorId.ParameterName = "@Utilizador_id";
+                UtilizadorId.SqlDbType = SqlDbType.Int;
+                UtilizadorId.Direction = ParameterDirection.Input;
+
+                SqlParameter AccountId = new SqlParameter();
+                AccountId.Value = Account.Id;
+                AccountId.ParameterName = "@Account_id";
+                AccountId.SqlDbType = SqlDbType.Int;
+                AccountId.Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add(UserName);
+                cmd.Parameters.Add(Password);
+                cmd.Parameters.Add(UtilizadorId);
+                cmd.Parameters.Add(AccountId); // not sure if needed
 
                 conn.Open();
+
                 int result = cmd.ExecuteNonQuery();
+
+                int id = (int)AccountId.Value;
+
+                Account.Id = id;
 
                 if (result < 0)
                 {
@@ -135,22 +189,24 @@ namespace ProjetoFinal.Data.Repositories
 
         public void Remove(int id)
         {
-            var cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-                string query = $"DELETE FROM Account WHERE Account_Id = {id} ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spDeleteAccount";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
-                cmd.Parameters.AddWithValue("@Account_Id", id);
+
+                cmd.Parameters.AddWithValue("@Account_id", id);
 
                 int result = cmd.ExecuteNonQuery();
 
                 if (result < 0)
                 {
-                    throw new Exception("Aconteceu um erro. A sua categoria não foi eliminada.");
+                    throw new Exception("Aconteceu um erro. A sua conta não foi eliminada.");
                 }
 
             }

@@ -20,10 +20,7 @@ namespace frmStillDidntDecide
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Ingredientes ingrediente = new Ingredientes();
-            ingrediente.Nome = (ingTxt.Text);
-            ingrediente.Quantidade = int.Parse(textBox1.Text);
-            MessageBox.Show("Ingrediente Adicionado!");
+
         }
     }
 }
