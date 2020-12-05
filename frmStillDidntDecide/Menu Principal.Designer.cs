@@ -65,13 +65,13 @@
             // aceitarUtilizadorToolStripMenuItem
             // 
             this.aceitarUtilizadorToolStripMenuItem.Name = "aceitarUtilizadorToolStripMenuItem";
-            this.aceitarUtilizadorToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.aceitarUtilizadorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aceitarUtilizadorToolStripMenuItem.Text = "Bloquear Utilizador";
             // 
             // aceitarUtilizadorToolStripMenuItem1
             // 
             this.aceitarUtilizadorToolStripMenuItem1.Name = "aceitarUtilizadorToolStripMenuItem1";
-            this.aceitarUtilizadorToolStripMenuItem1.Size = new System.Drawing.Size(174, 22);
+            this.aceitarUtilizadorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.aceitarUtilizadorToolStripMenuItem1.Text = "Aceitar Utilizador";
             // 
             // receitasToolStripMenuItem
@@ -86,13 +86,13 @@
             // validarReceitaToolStripMenuItem
             // 
             this.validarReceitaToolStripMenuItem.Name = "validarReceitaToolStripMenuItem";
-            this.validarReceitaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.validarReceitaToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.validarReceitaToolStripMenuItem.Text = "Validar Receita";
             // 
             // introduzirReceitaToolStripMenuItem
             // 
             this.introduzirReceitaToolStripMenuItem.Name = "introduzirReceitaToolStripMenuItem";
-            this.introduzirReceitaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.introduzirReceitaToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.introduzirReceitaToolStripMenuItem.Text = "Introduzir Receita";
             this.introduzirReceitaToolStripMenuItem.Click += new System.EventHandler(this.introduzirReceitaToolStripMenuItem_Click);
             // 

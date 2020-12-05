@@ -110,12 +110,13 @@ namespace ProjetoFinal.Data.Repositories
  
                 SqlParameter Id = new SqlParameter();
                 Id.Value = ingrediente.Id;
-                Id.ParameterName = "@Ingrediente_id";
+                Id.ParameterName = "@Ingrediente_Id";
                 Id.SqlDbType = SqlDbType.Int;
                 Id.Direction = ParameterDirection.Output;
 
                 cmd.Parameters.Add(Unidade);
                 cmd.Parameters.Add(Produto);
+                cmd.Parameters.Add(Id);
 
                 int id = (int)Id.Value;
 

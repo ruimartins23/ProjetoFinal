@@ -35,8 +35,8 @@ namespace ProjetoFinal.Data.Repositories
                     int id = dr.GetInt32(0);
                     string valorCategoria = dr.GetString(1);
 
-                    Categoria Categoria = new Categoria(id, valorCategoria);
-                    temp.Add(Categoria);
+                    Categoria categoria = new Categoria(id, valorCategoria);
+                    temp.Add(categoria);
 
                 }
            
@@ -63,13 +63,13 @@ namespace ProjetoFinal.Data.Repositories
                 while (dr.Read())
                 {
 
-                    Categoria Categoria = new Categoria();
+                    Categoria categoria = new Categoria();
                     {
-                        Categoria.Id = dr.GetInt32(0);
-                        Categoria.ValorCategoria = dr.GetString(1);
+                        categoria.Id = dr.GetInt32(0);
+                        categoria.ValorCategoria = dr.GetString(1);
 
                     }
-                    return Categoria;
+                    return categoria;
 
                 }
 
@@ -79,7 +79,7 @@ namespace ProjetoFinal.Data.Repositories
             }
         }
 
-        public void Add(Categoria Categoria)
+        public void Add(Categoria categoria)
         {
 
             using (SqlConnection conn = new SqlConnection(cs))
@@ -91,14 +91,14 @@ namespace ProjetoFinal.Data.Repositories
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter ValCat = new SqlParameter();
-                ValCat.Value = Categoria.ValorCategoria;
+                ValCat.Value = categoria.ValorCategoria;
                 ValCat.ParameterName = "@ValorCategoria";
                 ValCat.SqlDbType = SqlDbType.NVarChar;
                 ValCat.Direction = ParameterDirection.Input;
 
                 SqlParameter idCat = new SqlParameter();
-                idCat.Value = Categoria.Id;
-                idCat.ParameterName = "@Categoria_id";
+                idCat.Value = categoria.Id;
+                idCat.ParameterName = "@Categoria_Id";
                 idCat.SqlDbType = SqlDbType.Int;
                 idCat.Direction = ParameterDirection.Output;
 
@@ -107,12 +107,12 @@ namespace ProjetoFinal.Data.Repositories
 
 
 
-
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
 
+
                 int id = (int)idCat.Value;
-                id = Categoria.Id;
+                id = categoria.Id;
 
 
                 if (result < 0)
@@ -123,7 +123,7 @@ namespace ProjetoFinal.Data.Repositories
             }
         }
 
-        public void Update(Categoria Categoria)
+        public void Update(Categoria categoria)
         {
 
             using (SqlConnection conn = new SqlConnection(cs))
@@ -134,13 +134,13 @@ namespace ProjetoFinal.Data.Repositories
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter ValCat = new SqlParameter();
-                ValCat.Value = Categoria.ValorCategoria;
+                ValCat.Value = categoria.ValorCategoria;
                 ValCat.ParameterName = "@ValorCategoria";
                 ValCat.SqlDbType = SqlDbType.NVarChar;
                 ValCat.Direction = ParameterDirection.Input;
 
                 SqlParameter idCat = new SqlParameter();
-                idCat.Value = Categoria.Id;
+                idCat.Value = categoria.Id;
                 idCat.ParameterName = "@Categoria_id";
                 idCat.SqlDbType = SqlDbType.Int;
                 idCat.Direction = ParameterDirection.Input;
