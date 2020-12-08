@@ -32,21 +32,23 @@ namespace ProjetoFinal.Data.Repositories
 
                 SqlDataReader dr = cmd.ExecuteReader();
 
-            while (dr.Read())
-            {
+                while (dr.Read())
+                {
                 int id = dr.GetInt32(0);
-                string unidade = dr.GetString(1);
-                string produto = dr.GetString(2);
+                string unidade = dr.GetString(2);
+                string produto = dr.GetString(1);
 
 
                 Ingrediente ingrediente = new Ingrediente(id, unidade, produto);
                 temp.Add(ingrediente);
 
-            }
+                }
             
-                return temp;
+                
 
             }
+
+            return temp;
         }
 
         public Ingrediente GetById(int id)

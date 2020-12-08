@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Employees.Membership.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="/Contents/css/bootstrap.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="HeadPlaceHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="~/" runat="server">Employees</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <%--<a class="nav-link" href="~/" runat="server">Home <span class="sr-only">(current)</span></a>--%>
+                                <asp:HyperLink ID="HyperLink1" CssClass="nav-link" runat="server" NavigateUrl="~/">Home</asp:HyperLink>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/PageTwo.aspx" runat="server">Two</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Pages/PageThree.aspx" runat="server">Three</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Pages/PageFour.aspx" runat="server">Four</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Employees
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="~/Employees/AddEmployee.aspx" runat="server">Add Employee</a>
+                                    <div class="dropdown-divider"></div>
+                                    <asp:LoginView ID="LoginView2" runat="server">
+                                        <AnonymousTemplate>
+                                        </AnonymousTemplate>
+                                        <LoggedInTemplate>
+                                            <a class="dropdown-item" href="#">Faturas Favoritas </a>
+                                            <a class="dropdown-item" href="#">Encomendas Favoritas</a>
+                                        </LoggedInTemplate>
+                                    </asp:LoginView>
+
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            </li>
+                        </ul>
+                        <asp:LoginView ID="LoginView1" runat="server">
+                            <AnonymousTemplate>
+                                <asp:LoginStatus ID="LoginStatus2" runat="server" CssClass="btn btn-info" />
+                            </AnonymousTemplate>
+                            <LoggedInTemplate>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Olá <span>
+                                            <asp:LoginName ID="LoginName1" runat="server" />
+                                        </span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="~/RestrictedArea/PersonalArea.aspx" runat="server">Área pessoal</a>
+                                        <asp:LoginStatus ID="LoginStatus1" CssClass="btn btn-alert" runat="server" />
+                                    </div>
+                                </div>
+                            </LoggedInTemplate>
+                        </asp:LoginView>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="container">
+            <asp:ContentPlaceHolder ID="MainPlaceHolder" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+    </form>
+    <script src="/Contents/js/jquery-3.5.1.js"></script>
+    <script src="/Contents/js/popper.min.js"></script>
+    <script src="/Contents/js/bootstrap.js"></script>
+    <asp:ContentPlaceHolder ID="ScriptPlaceHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

@@ -1,4 +1,5 @@
 ﻿using ClassLibrary;
+using ProjetoFinal.Services.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +17,35 @@ namespace frmStillDidntDecide
         public Introduzir_Receita()
         {
             InitializeComponent();
+            Ingrediente ing = new Ingrediente();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
 
-            //receita.IngReceita.Add(richTextBox1.Text);
+            
+        }
+
+        private void Introduzir_Receita_Load(object sender, EventArgs e)
+        {
+            IngredientesServices ingServ = new IngredientesServices();
+            List<string> nomesIng = new List<string>();
+            foreach (var item in ingServ.GetAll())
+            {
+                nomesIng.Add(item.Produto);
+            }
+            listBox1.DataSource = nomesIng;
+
+            List<string> qntIng = new List<string>();
+            foreach (var item in ingServ.GetAll())
+            {
+                qntIng.Add(item.Unidade);
+            }
+            listBox2.DataSource = qntIng;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
 
         }
     }

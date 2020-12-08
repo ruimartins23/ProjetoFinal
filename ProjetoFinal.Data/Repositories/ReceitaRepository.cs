@@ -133,7 +133,7 @@ namespace ProjetoFinal.Data.Repositories
                 SqlParameter Duracao = new SqlParameter();
                 Duracao.Value = receita.Duracao;
                 Duracao.ParameterName = "@Duracao";
-                Duracao.SqlDbType = SqlDbType.Bit;
+                Duracao.SqlDbType = SqlDbType.DateTime;
                 Duracao.Direction = ParameterDirection.Input;
 
                 SqlParameter Rating = new SqlParameter();
