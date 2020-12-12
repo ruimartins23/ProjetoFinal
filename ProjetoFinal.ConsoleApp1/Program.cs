@@ -13,11 +13,7 @@ namespace ProjetoFinal.ConsoleApp1
     {
         static void Main(string[] args)
         {
-            IngredientesServices ingServ = new IngredientesServices();
-            foreach (var item in ingServ.GetAll())
-            {
-                Console.WriteLine(item.Id);
-            }
+
 
         }
     }

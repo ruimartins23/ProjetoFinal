@@ -1,11 +1,19 @@
 ﻿<%@ Page Title="Registar" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="ProjetoFinal.WebForms.Register" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <br />
-    <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" BackColor="#F7F7DE" BorderColor="#CCCC99" BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana" Font-Size="10pt" Height="298px">
+    <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" OnCreatedUser="CreateUserWizard1_CreatedUser" BackColor="#F7F7DE" BorderColor="#CCCC99" BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana" Font-Size="10pt" Height="298px">
         <ContinueButtonStyle BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana" ForeColor="#284775" />
         <CreateUserButtonStyle BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana" ForeColor="#284775" />
         <TitleTextStyle BackColor="#6B696B" Font-Bold="True" ForeColor="#FFFFFF" />
         <WizardSteps>
+            <asp:WizardStep runat="server" Title="NewUser">
+                <asp:Label Text="Nome" runat="server" />
+                <asp:TextBox ID="nameTxt" runat="server"></asp:TextBox>
+                <asp:Label Text="Email" runat="server" />
+                <asp:TextBox ID="emailTxt" runat="server"></asp:TextBox>
+                <asp:Label Text="Data de Nascimento" runat="server" />
+                <asp:TextBox ID="bdateTxt" TextMode="Date" runat="server"></asp:TextBox>
+            </asp:WizardStep>
             <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server">
             </asp:CreateUserWizardStep>
             <asp:CompleteWizardStep ID="CompleteWizardStep1" runat="server">

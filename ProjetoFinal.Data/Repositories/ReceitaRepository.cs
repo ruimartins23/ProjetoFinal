@@ -38,7 +38,7 @@ namespace ProjetoFinal.Data.Repositories
                 int id = dr.GetInt32(0);
                 string nome = dr.GetString(1);
                 string descricao = dr.GetString(2);
-                TimeSpan duracao = dr.GetTimeSpan(3);
+                String duracao = dr.GetString(3);
                 Rating rating = (Rating)dr.GetByte(4);
                 Dificuldade dificuldade = (Dificuldade)dr.GetByte(5);
                 bool validado = dr.GetBoolean(9);
@@ -81,7 +81,7 @@ namespace ProjetoFinal.Data.Repositories
                         receita.Id = dr.GetInt32(0);
                         receita.Nome = dr.GetString(1);
                         receita.Descricao = dr.GetString(2);
-                        receita.Duracao = dr.GetTimeSpan(3);
+                        receita.Duracao = dr.GetString(3);
                         receita._dificuldade = (Dificuldade)dr.GetInt32(4);
                         receita._rating = (Rating)dr.GetInt32(5);
 
@@ -133,7 +133,7 @@ namespace ProjetoFinal.Data.Repositories
                 SqlParameter Duracao = new SqlParameter();
                 Duracao.Value = receita.Duracao;
                 Duracao.ParameterName = "@Duracao";
-                Duracao.SqlDbType = SqlDbType.DateTime;
+                Duracao.SqlDbType = SqlDbType.NVarChar;
                 Duracao.Direction = ParameterDirection.Input;
 
                 SqlParameter Rating = new SqlParameter();
@@ -145,7 +145,7 @@ namespace ProjetoFinal.Data.Repositories
                 SqlParameter Categoria = new SqlParameter();
                 Categoria.Value = receita.Categoria;
                 Categoria.ParameterName = "@Categoria";
-                Categoria.SqlDbType = SqlDbType.Bit;
+                Categoria.SqlDbType = SqlDbType.NVarChar;
                 Categoria.Direction = ParameterDirection.Input;
 
                 cmd.Parameters.Add(Id);

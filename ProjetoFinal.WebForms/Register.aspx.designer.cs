@@ -24,6 +24,33 @@ namespace ProjetoFinal.WebForms
         protected global::System.Web.UI.WebControls.CreateUserWizard CreateUserWizard1;
 
         /// <summary>
+        /// nameTxt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox nameTxt;
+
+        /// <summary>
+        /// emailTxt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox emailTxt;
+
+        /// <summary>
+        /// bdateTxt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox bdateTxt;
+
+        /// <summary>
         /// CreateUserWizardStep1 control.
         /// </summary>
         /// <remarks>

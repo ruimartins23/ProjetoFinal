@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +44,33 @@ namespace ProjetoFinal.Services.Services
         {
             _repo.Remove(id);
         }
+
+        public void AddUserWithMembership(Utilizador utilizador, string membershipUsername)
+        {
+            utilizador.MembershipUserName = membershipUsername;
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                SqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = "spInsertUserWithMembership";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+
+                cmd.Parameters.AddWithValue("@Nome", utilizador.Nome);
+                cmd.Parameters.AddWithValue("@Email", utilizador.Email);
+                cmd.Parameters.AddWithValue("@Birthdate", utilizador.BirthDate);
+                cmd.Parameters.AddWithValue("@MembershipUsername", utilizador.MembershipUserName);
+
+                int id = (int)cmd.ExecuteScalar();
+                utilizador.Id = id;
+
+
+            }
+
+
+    }
 
     }
 }

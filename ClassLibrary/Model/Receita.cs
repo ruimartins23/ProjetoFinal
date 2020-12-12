@@ -16,7 +16,7 @@ namespace ClassLibrary
 
         public string Descricao { get; set; }
 
-        public TimeSpan Duracao { get; set; }
+        public string Duracao { get; set; }
 
         public bool Validado { get; set; }
 
@@ -51,7 +51,7 @@ namespace ClassLibrary
         public Dificuldade _dificuldade;
 
 
-        public Receita(int id, string nome, string descricao, TimeSpan duracao, bool validado, Rating rating, Dificuldade dificuldade)
+        public Receita(int id, string nome, string descricao, string duracao, bool validado, Rating rating, Dificuldade dificuldade)
         {
 
             Id = id;

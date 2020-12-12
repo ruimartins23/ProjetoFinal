@@ -47,7 +47,8 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Receitas</a></li>   <%--COLOCAR AQUI AS RECEITAS--%>
+                        <li><a runat="server" href="~/">Receitas</a></li>
+                        <li><a runat="server" href="~/InsertReceita">Inserir Receitas</a></li>
                         <li><a runat="server" href="~/PesquisarReceita">Pesquisar Receitas</a></li>
                         <li><a runat="server" href="~/Contact">Contactos</a></li>
                     </ul>

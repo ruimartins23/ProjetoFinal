@@ -35,6 +35,8 @@ namespace ClassLibrary
 
         public DateTime BirthDate { get; set; }
 
+        public string MembershipUserName { get; set; }
+
         public bool Registado { get; set; }
 
         public bool Admin { get; set; }
