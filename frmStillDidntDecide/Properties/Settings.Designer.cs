@@ -33,5 +33,16 @@ namespace ProjetoFinal.WinForms.Properties {
                 return ((string)(this["cs"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=RM_SiteReceitas;Integrated Security=True" +
+            "")]
+        public string RM_SiteReceitasConnectionString {
+            get {
+                return ((string)(this["RM_SiteReceitasConnectionString"]));
+            }
+        }
     }
 }

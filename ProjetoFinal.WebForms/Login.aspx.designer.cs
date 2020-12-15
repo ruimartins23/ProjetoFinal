@@ -11,16 +11,16 @@ namespace ProjetoFinal.WebForms
 {
 
 
-    public partial class _Default
+    public partial class Login
     {
 
         /// <summary>
-        /// LoginStatus1 control.
+        /// Login2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LoginStatus LoginStatus1;
+        protected global::System.Web.UI.WebControls.Login Login2;
     }
 }

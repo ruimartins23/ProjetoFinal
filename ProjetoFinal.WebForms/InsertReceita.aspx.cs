@@ -23,14 +23,14 @@ namespace ProjetoFinal.WebForms
             ReceitaServices recServ = new ReceitaServices();
             recipe.Nome = nameTxt.Text;
             recipe.Descricao = descTxt.Text;
-            recipe.Duracao = durTxt.Text;
+            //recipe.Duracao = (TimeSpan)durTxt.Text;
             recipe._dificuldade = (Dificuldade)int.Parse(DropDownList1.SelectedValue);
             recipe.Validado = false;
-            foreach (object item in ListBox1.SelectedValue)
-            {
-                Ingrediente ing = (Ingrediente)item;
-                recipe.Ingredientes.Add(ing);
-            }
+            //foreach (Ingrediente item in ListBox1.Ite)
+            //{
+            //    Ingrediente ing = (Ingrediente)item;
+            //    recipe.Ingredientes.Add(ing);
+            //}
 
             recServ.Add(recipe);
 

@@ -15,35 +15,35 @@
 <br />
 <br />
     <br />
-        <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical">
+        <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" RepeatColumns="3">
             <AlternatingItemStyle BackColor="#CCCCCC" />
             <FooterStyle BackColor="#CCCCCC" />
             <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
             <ItemTemplate>
-                <table class="nav-justified">
+                <table class="nav-justified" style="height: 275px">
                     <tr>
-                        <td style="width: 187px; height: 20px;">Nome</td>
-                        <td style="height: 20px">
-                            <asp:Label ID="Label1" runat="server" Text='<%# Eval("NomeRec") %>'></asp:Label>
+                        <td style="width: 59px; height: 83px; font-size: medium;"><strong>Nome</strong></td>
+                        <td style="height: 83px">
+                            <asp:Label ID="Label1" runat="server" Text='<%# Eval("NomeRec") %>' style="font-size: medium"></asp:Label>
                         </td>
-                        <td style="height: 20px"></td>
+                        <td style="height: 83px"></td>
                     </tr>
                     <tr>
-                        <td style="width: 187px; height: 20px;">Descrição</td>
-                        <td style="height: 20px">
-                            <asp:Label ID="Label4" runat="server" Text='<%# Eval("Descricao") %>'></asp:Label>
+                        <td style="width: 59px; height: 132px; font-size: medium;"><strong>Descrição</strong></td>
+                        <td style="height: 132px">
+                            <asp:Label ID="Label4" runat="server" style="font-size: medium" Text='<%# Eval("Descricao") %>'></asp:Label>
                         </td>
-                        <td style="height: 20px">&nbsp;</td>
+                        <td style="height: 132px"></td>
                     </tr>
                     <tr>
-                        <td style="width: 187px">Duração</td>
+                        <td style="width: 59px"><strong>Duração</strong></td>
                         <td>
                             <asp:Label ID="Label2" runat="server" Text='<%# Eval("Duracao") %>'></asp:Label>
-                        </td>
+                            &nbsp;minutos</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="width: 187px">Dificuldade</td>
+                        <td style="width: 59px"><strong>Dificuldade</strong></td>
                         <td>
                             <asp:Label ID="Label3" runat="server" Text='<%# Eval("Dificuldade") %>'></asp:Label>
                         </td>

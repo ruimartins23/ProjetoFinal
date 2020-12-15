@@ -1,4 +1,4 @@
-﻿namespace frmStillDidntDecide
+﻿namespace WindowsFormsBackOffice
 {
     partial class Introduzir_Ingrediente
     {

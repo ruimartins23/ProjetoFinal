@@ -2,7 +2,7 @@
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
+    <asp:LoginStatus ID="LoginStatus1" runat="server" />
     <div class="jumbotron">
         <h1>Receitas Yummy</h1>
         <p class="lead">Experimente uma das nossas muitas receitas, para todos os gostos e momentos!</p>
@@ -13,7 +13,7 @@
         <div class="col-md-4">
             <h2>Já registado?</h2>
             <p>Faça aqui o login para procurar, classificar, comentar, ou inserir as suas próprias receitas!</p>
-                <a class="btn btn-default" href="<%--COLOCAR AQUI PÁGINA DE LOGIN--%>">Login</a>
+                <a class="btn btn-default" href="Login">Login</a>
         </div>
         <div class="col-md-4">
             <h2>Procura algo em especial?</h2>

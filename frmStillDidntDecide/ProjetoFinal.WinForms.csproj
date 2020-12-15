@@ -46,23 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SubForms\Bloquear Utilizadores.cs">
+    <Compile Include="RM_SiteReceitasDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RM_SiteReceitasDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="RM_SiteReceitasDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RM_SiteReceitasDataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SubForms\Gerir Utilizadores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SubForms\Bloquear Utilizadores.Designer.cs">
-      <DependentUpon>Bloquear Utilizadores.cs</DependentUpon>
+    <Compile Include="SubForms\Gerir Utilizadores.Designer.cs">
+      <DependentUpon>Gerir Utilizadores.cs</DependentUpon>
     </Compile>
     <Compile Include="SubForms\Introduzir Ingrediente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SubForms\Introduzir Ingrediente.Designer.cs">
       <DependentUpon>Introduzir Ingrediente.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SubForms\Introduzir Receita.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SubForms\Introduzir Receita.Designer.cs">
-      <DependentUpon>Introduzir Receita.cs</DependentUpon>
     </Compile>
     <Compile Include="Menu Principal.cs">
       <SubType>Form</SubType>
@@ -78,14 +82,11 @@
     <Compile Include="SubForms\Validar Receita.Designer.cs">
       <DependentUpon>Validar Receita.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SubForms\Bloquear Utilizadores.resx">
-      <DependentUpon>Bloquear Utilizadores.cs</DependentUpon>
+    <EmbeddedResource Include="SubForms\Gerir Utilizadores.resx">
+      <DependentUpon>Gerir Utilizadores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubForms\Introduzir Ingrediente.resx">
       <DependentUpon>Introduzir Ingrediente.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SubForms\Introduzir Receita.resx">
-      <DependentUpon>Introduzir Receita.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu Principal.resx">
       <DependentUpon>Menu Principal.cs</DependentUpon>
@@ -100,6 +101,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SubForms\Validar Receita.resx">
+      <DependentUpon>Validar Receita.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -109,6 +113,28 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="RM_SiteReceitasDataSet1.xsc">
+      <DependentUpon>RM_SiteReceitasDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="RM_SiteReceitasDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RM_SiteReceitasDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="RM_SiteReceitasDataSet1.xss">
+      <DependentUpon>RM_SiteReceitasDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="RM_SiteReceitasDataSet2.xsc">
+      <DependentUpon>RM_SiteReceitasDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="RM_SiteReceitasDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RM_SiteReceitasDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="RM_SiteReceitasDataSet2.xss">
+      <DependentUpon>RM_SiteReceitasDataSet2.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

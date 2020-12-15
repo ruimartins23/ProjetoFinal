@@ -7,8 +7,7 @@
     <br />
     <br />
     <asp:Label ID="Label6" runat="server" Text="Ingredientes:"></asp:Label>
-    <asp:ListBox ID="ListBox1" runat="server" SelectionMode="Multiple" DataSourceID="SqlDataSource1" DataTextField="Produto" DataValueField="Produto" Height="132px" Width="168px">
-    </asp:ListBox>
+    <asp:ListBox ID="ListBox1" runat="server" SelectionMode="Multiple" DataSourceID="SqlDataSource1" DataTextField="Produto" DataValueField="Produto" Height="132px" Width="168px"></asp:ListBox>
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ProjetoFinalCS %>" SelectCommand="spGetAllIngrediente" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
     <br />
     <br />

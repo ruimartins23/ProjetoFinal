@@ -19,14 +19,7 @@ namespace ProjetoFinal.WebForms
 
         protected void CreateUserWizard1_CreatedUser(object sender, EventArgs e)
         {
-            Utilizador user = new Utilizador();
-            user.Nome = nameTxt.Text;
-            user.Email = emailTxt.Text;
-            user.BirthDate = DateTime.Parse(bdateTxt.Text);
 
-            user.MembershipUserName = CreateUserWizard1.UserName;
-
-            userServ.AddUserWithMembership(user, CreateUserWizard1.UserName);
         }
     }
 }

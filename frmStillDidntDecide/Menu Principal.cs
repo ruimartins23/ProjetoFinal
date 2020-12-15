@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace frmStillDidntDecide
+namespace WindowsFormsBackOffice
 {
     public partial class Form1 : Form
     {
@@ -18,15 +18,27 @@ namespace frmStillDidntDecide
             InitializeComponent();
         }
 
-        private void introduzirReceitaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var m = new Introduzir_Receita();
-            m.Show();
-        }
 
         private void adicionarIngredientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var m = new Introduzir_Ingrediente();
+            m.Show();
+        }
+
+        private void aceitarUtilizadorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aceitarUtilizadorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var m = new Gerir_Utilizadores();
+            m.Show();           
+        }
+
+        private void validarReceitaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var m = new Validar_Receita();
             m.Show();
         }
     }

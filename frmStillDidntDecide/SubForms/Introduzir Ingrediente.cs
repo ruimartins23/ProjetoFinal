@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace frmStillDidntDecide
+namespace WindowsFormsBackOffice
 {
     public partial class Introduzir_Ingrediente : Form
     {

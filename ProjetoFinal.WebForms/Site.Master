@@ -47,14 +47,35 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Receitas</a></li>
+                        <li><a runat="server" href="~/AllReceitas">Receitas</a></li>
                         <li><a runat="server" href="~/InsertReceita">Inserir Receitas</a></li>
                         <li><a runat="server" href="~/PesquisarReceita">Pesquisar Receitas</a></li>
-                        <li><a runat="server" href="~/Contact">Contactos</a></li>
-                    </ul>
+                        <li><a runat="server" href="~/Contact">Contactos</a></li>  
+                        <li><asp:LoginView ID="LoginView1" runat="server">
+                            <AnonymousTemplate>
+                                <asp:LoginStatus ID="LoginStatus2" runat="server" CssClass="btn btn-outline-primary"  />
+                            </AnonymousTemplate>
+                            <LoggedInTemplate>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Olá <span>
+                                            <asp:LoginName ID="LoginName1" runat="server" />
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="<%--ÁREA PESSOAL--%>" runat="server">Área pessoal</a>
+                                    <asp:LoginStatus ID="LoginStatus1" CssClass="btn btn-alert" runat="server" />
+                                </div>
+                                </div>
+                            </LoggedInTemplate>
+                        </asp:LoginView></li>
+                    </ul>                    
+
                 </div>
             </div>
         </div>
+       
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>

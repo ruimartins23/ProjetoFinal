@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Security;
 using ClassLibrary;
 using ProjetoFinal.Data.Repositories;
 
@@ -69,8 +70,55 @@ namespace ProjetoFinal.Services.Services
 
             }
 
+        }
 
-    }
+        public Utilizador GetLoggedInUser(string identityUsername)
+        {
+
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
+            Utilizador user = null;
+
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "spGetLoggedInUser";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                user = new Utilizador();
+
+                //cmd.Parameters["@MembershipUsername"].Value = user.MembershipUserName;
+
+                //SqlParameter mUser = new SqlParameter();
+                //mUser.Value = user.MembershipUserName;
+                //mUser.ParameterName = "@MembershipUsername";
+                //mUser.SqlDbType = SqlDbType.NVarChar;
+                //mUser.Direction = ParameterDirection.InputOutput;
+
+
+                user = new Utilizador();
+
+                if (dr.Read())
+                {
+                    user.Id = dr.GetInt32(0);
+                    user.Nome = dr.GetString(1);
+                    user.Email = dr.GetString(2);
+                    user.BirthDate = dr.GetDateTime(3);
+                    user.MembershipUserName = dr.GetString(7);
+
+                    return user;
+                }
+                else
+                {
+                    throw new Exception("Não existe");
+                }
+
+            }
+        }
 
     }
 }
