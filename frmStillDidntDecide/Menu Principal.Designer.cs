@@ -35,7 +35,6 @@
             this.validarReceitaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingredientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adicionarIngredientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.validarIngredientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,7 +62,7 @@
             // aceitarUtilizadorToolStripMenuItem
             // 
             this.aceitarUtilizadorToolStripMenuItem.Name = "aceitarUtilizadorToolStripMenuItem";
-            this.aceitarUtilizadorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aceitarUtilizadorToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.aceitarUtilizadorToolStripMenuItem.Text = "Gerir Utilizadores";
             this.aceitarUtilizadorToolStripMenuItem.Click += new System.EventHandler(this.aceitarUtilizadorToolStripMenuItem_Click);
             // 
@@ -78,15 +77,14 @@
             // validarReceitaToolStripMenuItem
             // 
             this.validarReceitaToolStripMenuItem.Name = "validarReceitaToolStripMenuItem";
-            this.validarReceitaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.validarReceitaToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.validarReceitaToolStripMenuItem.Text = "Validar Receita";
             this.validarReceitaToolStripMenuItem.Click += new System.EventHandler(this.validarReceitaToolStripMenuItem_Click);
             // 
             // ingredientesToolStripMenuItem
             // 
             this.ingredientesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.adicionarIngredientesToolStripMenuItem,
-            this.validarIngredientesToolStripMenuItem});
+            this.adicionarIngredientesToolStripMenuItem});
             this.ingredientesToolStripMenuItem.Name = "ingredientesToolStripMenuItem";
             this.ingredientesToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
             this.ingredientesToolStripMenuItem.Text = "Ingredientes";
@@ -97,12 +95,6 @@
             this.adicionarIngredientesToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
             this.adicionarIngredientesToolStripMenuItem.Text = "Adicionar Ingredientes";
             this.adicionarIngredientesToolStripMenuItem.Click += new System.EventHandler(this.adicionarIngredientesToolStripMenuItem_Click);
-            // 
-            // validarIngredientesToolStripMenuItem
-            // 
-            this.validarIngredientesToolStripMenuItem.Name = "validarIngredientesToolStripMenuItem";
-            this.validarIngredientesToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.validarIngredientesToolStripMenuItem.Text = "Validar Ingredientes";
             // 
             // Form1
             // 
@@ -131,7 +123,6 @@
         private System.Windows.Forms.ToolStripMenuItem validarReceitaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ingredientesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem adicionarIngredientesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem validarIngredientesToolStripMenuItem;
     }
 }
 

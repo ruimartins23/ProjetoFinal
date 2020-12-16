@@ -23,7 +23,6 @@ namespace ProjetoFinal.WebForms
             Utilizador user = _utiServ.GetLoggedInUser(User.Identity.Name);
             Session["LoggedInUser"] = user;
 
-
         }
 
         protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)

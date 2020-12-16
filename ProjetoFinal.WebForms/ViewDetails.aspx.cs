@@ -28,12 +28,13 @@ namespace ProjetoFinal.WebForms
             string userName = Membership.GetUser().UserName;
             Utilizador user = userRec.GetUserByMembershipName(userName);
             int idUser = user.Id;
-            Comentario coment = new Comentario();
-            coment.ValorComentario = ((System.Web.UI.WebControls.TextBox)DataList1.FindControl("TextBox1")).Text;
-            coment.DataPost = DateTime.Now;
-            coment.Utilizador.Id = idUser;
-            coment.Receita.Id = int.Parse(Request.QueryString["id"]);
-            comServ.Add(coment);
+            Comentario comentarius = new Comentario();
+            string txtBoxValue = Page.Request.Form["comentTxt"].ToString();
+            comentarius.ValorComentario = txtBoxValue;
+            comentarius.DataPost = DateTime.Now;
+            comentarius.Utilizador.Id = idUser;
+            comentarius.Receita.Id = int.Parse(Request.QueryString["id"]);
+            comServ.Add(comentarius);
 
         }
 

@@ -91,31 +91,31 @@ namespace ProjetoFinal.Data.Repositories
                 SqlParameter ValorComentario = new SqlParameter();
                 ValorComentario.Value = comentario.ValorComentario;
                 ValorComentario.ParameterName = "@ValorComentario";
-                ValorComentario.SqlDbType = SqlDbType.NText;
+                ValorComentario.DbType = DbType.String;
                 ValorComentario.Direction = ParameterDirection.Input;
 
                 SqlParameter UtilizadorId = new SqlParameter();
                 UtilizadorId.Value = comentario.Utilizador.Id;
                 UtilizadorId.ParameterName = "@Utilizador_id";
-                UtilizadorId.SqlDbType = SqlDbType.Int;
+                UtilizadorId.DbType = DbType.Int32;
                 UtilizadorId.Direction = ParameterDirection.Input;
 
                 SqlParameter ReceitaId = new SqlParameter();
                 ReceitaId.Value = comentario.Receita.Id;
                 ReceitaId.ParameterName = "@Receita_Id";
-                ReceitaId.SqlDbType = SqlDbType.Int;
+                ReceitaId.DbType = DbType.Int32;
                 ReceitaId.Direction = ParameterDirection.Input;
 
                 SqlParameter DatePost = new SqlParameter();
                 DatePost.Value = comentario.DataPost;
                 DatePost.ParameterName = "@DatePost";
-                DatePost.SqlDbType = SqlDbType.DateTime;
+                DatePost.DbType = DbType.DateTime;
                 DatePost.Direction = ParameterDirection.Input;
 
                 SqlParameter ComentId = new SqlParameter();
                 ComentId.Value = comentario.Id;
                 ComentId.ParameterName = "@Comentario_id";
-                ComentId.SqlDbType = SqlDbType.Int;
+                ComentId.DbType = DbType.Int32;
                 ComentId.Direction = ParameterDirection.Output;
 
                 cmd.Parameters.Add(ValorComentario);
@@ -124,6 +124,7 @@ namespace ProjetoFinal.Data.Repositories
                 cmd.Parameters.Add(DatePost);
 
                 conn.Open();
+
                 int result = cmd.ExecuteNonQuery();
 
                 int id = (int)ComentId.Value;

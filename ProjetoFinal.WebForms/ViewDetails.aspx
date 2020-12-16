@@ -7,7 +7,7 @@
                     <td class="text-center" style="width: 214px">
                         <br />
                         <br />
-                        <asp:TextBox ID="TextBox1" runat="server" ></asp:TextBox>
+                        <input type="text" id="comentTxt" runat="server" />
                         <br />
                         <br />
                         <br />

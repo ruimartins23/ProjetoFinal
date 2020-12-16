@@ -5,7 +5,7 @@
  <% foreach (Receita recipe in favRec) %>
             <% { %>
             <div class="my-2">
-                <div class="toast-body" style=""">
+                <div class="toast-body">
                     <%: recipe.Nome %>
                 </div>
                 <div class="toast-header">

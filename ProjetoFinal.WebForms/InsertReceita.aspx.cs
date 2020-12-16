@@ -21,26 +21,35 @@ namespace ProjetoFinal.WebForms
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            UtilizadorServices userRec = new UtilizadorServices();
-            string userName = Membership.GetUser().UserName;
-            Utilizador user = userRec.GetUserByMembershipName(userName);
-            int idUser = user.Id;
-            Receita recipe = new Receita();
-            ReceitaServices recServ = new ReceitaServices();
-            recipe.Nome = nameTxt.Text;
-            recipe.Descricao = descTxt.Text;
-            recipe.Duracao = durTxt.Text;
-            recipe._dificuldade = (Dificuldade)int.Parse(DropDownList1.SelectedValue);
-            recipe.Validado = false;
-            recipe.Categoria = catTxt.Text;
-            recipe.Utilizador_id = idUser;
-            //foreach (Ingrediente item in ListBox1.Ite)
-            //{
-            //    Ingrediente ing = (Ingrediente)item;
-            //    recipe.Ingredientes.Add(ing);
-            //}
+            bool val = System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+            if (val)
+            {
+                UtilizadorServices userRec = new UtilizadorServices();
+                string userName = Membership.GetUser().UserName;
+                Utilizador user = userRec.GetUserByMembershipName(userName);
+                int idUser = user.Id;
+                Receita recipe = new Receita();
+                ReceitaServices recServ = new ReceitaServices();
+                recipe.Nome = nameTxt.Text;
+                recipe.Descricao = descTxt.Text;
+                recipe.Duracao = durTxt.Text;
+                recipe._dificuldade = (Dificuldade)int.Parse(DropDownList1.SelectedValue);
+                recipe.Validado = false;
+                recipe.Categoria = catTxt.Text;
+                recipe.Utilizador_id = idUser;
+                //foreach (Ingrediente item in ListBox1.SelectedValue)
+                //{
+                //    Ingrediente ing = (Ingrediente)item;
+                //    recipe.Ingredientes.Add(ing);
+                //}
 
-            recServ.Add(recipe);
+                recServ.Add(recipe);
+            }
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
+
 
             
         }

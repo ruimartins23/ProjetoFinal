@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Receitas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AllReceitas.aspx.cs" Inherits="ProjetoFinal.WebForms.AllReceitas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <br />
-    <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataSourceID="SqlDataSource1" GridLines="Horizontal" Height="476px" RepeatColumns="3" Width="849px" OnItemCommand="DataList1_ItemCommand" DataKeyField="Receita_id">
+    <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataSourceID="SqlDataSource1" GridLines="Horizontal" Height="476px" RepeatColumns="3" Width="756px" OnItemCommand="DataList1_ItemCommand" DataKeyField="Receita_id">
         <AlternatingItemStyle BackColor="#F7F7F7" />
         <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
         <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
