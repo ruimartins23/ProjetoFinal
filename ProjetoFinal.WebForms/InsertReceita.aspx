@@ -20,7 +20,7 @@
     <br />
     <br />
     <asp:Label ID="Label4" runat="server" Text="Duração: (minutos)"></asp:Label>
-    <asp:TextBox ID="durTxt" runat="server" TextMode="Time"></asp:TextBox>
+    <asp:TextBox ID="durTxt" runat="server"></asp:TextBox>
     <br />
     <br />
     <asp:Label ID="Label5" runat="server" Text="Dificuldade:"></asp:Label>

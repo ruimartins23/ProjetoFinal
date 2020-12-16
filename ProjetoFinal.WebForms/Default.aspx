@@ -29,7 +29,7 @@
             <p>
                 Aceda aqui á sua área pessoal
             </p>
-                <a class="btn btn-default" href="<%--COLOCAR AQUI PÁGINA DE ÁREA PESSOAL--%>">Área Pessoal</a>
+                <a class="btn btn-default" href="PersonalArea.aspx">Área Pessoal</a>
         </div>
     </div>
 

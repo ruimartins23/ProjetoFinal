@@ -120,5 +120,45 @@ namespace ProjetoFinal.Services.Services
             }
         }
 
+        public Utilizador GetUserByMembershipName(string membership)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+            Utilizador user = null;
+
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "spGetUsersByMembership";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter par = new SqlParameter("@MembershipUsername", membership);
+                par.Direction = ParameterDirection.Input;
+                cmd.Parameters.Add(par);
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    user = new Utilizador();
+
+                    user.Id = dr.GetInt32(0);
+                    user.Nome = dr.GetString(1);
+                    user.Email = dr.GetString(2);
+                    user.BirthDate = dr.GetDateTime(3);
+                }
+
+                return user;
+            }
+        }
+
+        public List<Receita> GetFavRecipesByUserId(int userId)
+        {
+            return _repo.GetFavRecipesByUserId(userId);
+        }
+
     }
 }

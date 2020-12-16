@@ -78,7 +78,7 @@ namespace ProjetoFinal.Data.Repositories
             }
         }
 
-        public void Add(Comentario Comentario)
+        public void Add(Comentario comentario)
         {
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -89,54 +89,50 @@ namespace ProjetoFinal.Data.Repositories
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter ValorComentario = new SqlParameter();
-                ValorComentario.Value = Comentario.ValorComentario;
+                ValorComentario.Value = comentario.ValorComentario;
                 ValorComentario.ParameterName = "@ValorComentario";
                 ValorComentario.SqlDbType = SqlDbType.NText;
                 ValorComentario.Direction = ParameterDirection.Input;
 
                 SqlParameter UtilizadorId = new SqlParameter();
-                UtilizadorId.Value = Comentario.Utilizador.Id;
+                UtilizadorId.Value = comentario.Utilizador.Id;
                 UtilizadorId.ParameterName = "@Utilizador_id";
                 UtilizadorId.SqlDbType = SqlDbType.Int;
                 UtilizadorId.Direction = ParameterDirection.Input;
 
                 SqlParameter ReceitaId = new SqlParameter();
-                ReceitaId.Value = Comentario.Receita.Id;
-                ReceitaId.ParameterName = "@ReceitaId";
+                ReceitaId.Value = comentario.Receita.Id;
+                ReceitaId.ParameterName = "@Receita_Id";
                 ReceitaId.SqlDbType = SqlDbType.Int;
                 ReceitaId.Direction = ParameterDirection.Input;
 
                 SqlParameter DatePost = new SqlParameter();
-                DatePost.Value = Comentario.DataPost;
+                DatePost.Value = comentario.DataPost;
                 DatePost.ParameterName = "@DatePost";
                 DatePost.SqlDbType = SqlDbType.DateTime;
                 DatePost.Direction = ParameterDirection.Input;
 
                 SqlParameter ComentId = new SqlParameter();
-                ComentId.Value = Comentario.Id;
+                ComentId.Value = comentario.Id;
                 ComentId.ParameterName = "@Comentario_id";
                 ComentId.SqlDbType = SqlDbType.Int;
                 ComentId.Direction = ParameterDirection.Output;
-
 
                 cmd.Parameters.Add(ValorComentario);
                 cmd.Parameters.Add(UtilizadorId);
                 cmd.Parameters.Add(ReceitaId);
                 cmd.Parameters.Add(DatePost);
 
-
-
-
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
 
                 int id = (int)ComentId.Value;
 
-                Comentario.Id = id;
+                comentario.Id = id;
 
                 if (result < 0)
                 {
-                throw new Exception("Ocorreu um erro. O seu comentario não foi adicionado.");
+                    throw new Exception("Ocorreu um erro. O seu comentario não foi adicionado.");
                 }
 
             }

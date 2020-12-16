@@ -38,7 +38,7 @@ namespace ProjetoFinal.Data.Repositories
                 int id = dr.GetInt32(0);
                 string nome = dr.GetString(1);
                 string descricao = dr.GetString(2);
-                TimeSpan duracao = dr.GetTimeSpan(3);
+                string duracao = dr.GetString(3);
                 Rating rating = (Rating)dr.GetByte(4);
                 Dificuldade dificuldade = (Dificuldade)dr.GetByte(5);
                 bool validado = dr.GetBoolean(9);
@@ -62,39 +62,36 @@ namespace ProjetoFinal.Data.Repositories
             using (SqlConnection conn = new SqlConnection(cs))
             {
 
-
-                SqlCommand cmd = conn.CreateCommand();
+                SqlCommand cmd = new SqlCommand();
+                Receita receita = new Receita();
 
                 cmd.CommandText = "spGetReceitaById";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = conn;
+
+                SqlParameter idPar = new SqlParameter("@Receita_id", id);
+                idPar.SqlDbType = SqlDbType.Int;
+                idPar.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(idPar);
 
                 conn.Open();
 
                 SqlDataReader dr = cmd.ExecuteReader();
-
-                Receita receita = new Receita();
+                
 
                 while (dr.Read())
-                 {
+                {
 
-                    {
+                    
                         receita.Id = dr.GetInt32(0);
                         receita.Nome = dr.GetString(1);
                         receita.Descricao = dr.GetString(2);
-                        receita.Duracao = dr.GetTimeSpan(3);
-                        receita._dificuldade = (Dificuldade)dr.GetInt32(4);
-                        receita._rating = (Rating)dr.GetInt32(5);
+                        receita.Duracao = dr.GetString(3);
+                        receita._dificuldade = (Dificuldade)dr.GetByte(4);
+                        receita._rating = (Rating)dr.GetByte(5);
 
-                    }
-
-
-                 }
-
-                int result = cmd.ExecuteNonQuery();
-
-                if (result < 0)
-                {
-                    throw new Exception("Nao existe nenhuma receita com o ID " + id);
+                    
                 }
 
                 return receita;
@@ -139,14 +136,20 @@ namespace ProjetoFinal.Data.Repositories
                 SqlParameter Rating = new SqlParameter();
                 Rating.Value = receita._rating;
                 Rating.ParameterName = "@Rating";
-                Rating.SqlDbType = SqlDbType.Bit;
+                Rating.SqlDbType = SqlDbType.TinyInt;
                 Rating.Direction = ParameterDirection.Input;
 
                 SqlParameter Dificulty = new SqlParameter();
                 Dificulty.Value = receita._dificuldade;
                 Dificulty.ParameterName = "@Dificuldade";
-                Dificulty.SqlDbType = SqlDbType.Bit;
+                Dificulty.SqlDbType = SqlDbType.TinyInt;
                 Dificulty.Direction = ParameterDirection.Input;
+
+                SqlParameter userId = new SqlParameter();
+                userId.Value = receita.Utilizador_id;
+                userId.ParameterName = "@Utilizador_id";
+                userId.SqlDbType = SqlDbType.Int;
+                userId.Direction = ParameterDirection.Input;
 
                 SqlParameter Categoria = new SqlParameter();
                 Categoria.Value = receita.Categoria;
@@ -158,8 +161,9 @@ namespace ProjetoFinal.Data.Repositories
                 cmd.Parameters.Add(NomeRec);
                 cmd.Parameters.Add(Descricao);
                 cmd.Parameters.Add(Duracao);
-                cmd.Parameters.Add(Rating);
                 cmd.Parameters.Add(Dificulty);
+                cmd.Parameters.Add(Rating);
+                cmd.Parameters.Add(userId);
                 cmd.Parameters.Add(Categoria);
 
 
@@ -211,7 +215,7 @@ namespace ProjetoFinal.Data.Repositories
                 SqlParameter Duracao = new SqlParameter();
                 Duracao.Value = receita.Duracao;
                 Duracao.ParameterName = "@Duracao";
-                Duracao.SqlDbType = SqlDbType.Bit;
+                Duracao.SqlDbType = SqlDbType.NVarChar;
                 Duracao.Direction = ParameterDirection.Input;
 
                 SqlParameter Rating = new SqlParameter();
@@ -266,6 +270,92 @@ namespace ProjetoFinal.Data.Repositories
                 }
 
             }
+        }
+        public List<Receita> GetIdRecipe(int userId)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+            List<Receita> recipes = new List<Receita>();
+
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "@spReadRecipeId";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter idPar = new SqlParameter("@Utilizador_id", userId);
+                idPar.DbType = DbType.Int32;
+                idPar.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(idPar);
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Receita recipe = null;
+
+                while (dr.Read())
+                {
+                    recipe = new Receita();
+                    recipe.Id = dr.GetInt32(1);
+
+                    recipes.Add(recipe);
+                }
+
+                return recipes;
+            }
+
+            
+        }
+
+        public void InsertFavouriteRecipe(int recipeId, int userId)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+
+            //using (SqlConnection conn = new SqlConnection(cs))
+            //{
+            //    SqlCommand cmd = new SqlCommand();
+            //    cmd.Connection = conn;
+
+            //    cmd.CommandText = "spInsertUserRecipeId";
+            //    cmd.CommandType = CommandType.StoredProcedure;
+
+            //    SqlParameter userPar = new SqlParameter("@Utilizador_id", userId);
+            //    userPar.DbType = DbType.Int32;
+            //    userPar.Direction = ParameterDirection.Input;
+
+            //    SqlParameter recipePar = new SqlParameter("@Receita_id", recipeId);
+            //    recipePar.DbType = DbType.Int32;
+            //    recipePar.Direction = ParameterDirection.Input;
+
+            //    cmd.Parameters.Add(userPar);
+            //    cmd.Parameters.Add(recipePar);
+
+            //    conn.Open();
+
+            //    cmd.ExecuteNonQuery();
+
+            using (SqlConnection connection = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = connection;
+                cmd.CommandText = "spInsertUserRecipeId";
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter idRecipeParameter = new SqlParameter("@Receita_id", recipeId);
+                idRecipeParameter.DbType = DbType.Int32;
+                idRecipeParameter.Direction = ParameterDirection.Input;
+                SqlParameter idUserParameter = new SqlParameter("@Utilizador_id", userId);
+                idUserParameter.DbType = DbType.Int32;
+                idUserParameter.Direction = ParameterDirection.Input;
+                cmd.Parameters.Add(idUserParameter);
+                cmd.Parameters.Add(idRecipeParameter);
+                connection.Open();
+                cmd.ExecuteNonQuery();
+
+            }
+
         }
     }
 }

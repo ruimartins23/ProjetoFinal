@@ -129,6 +129,7 @@
     <Content Include="Login.aspx" />
     <Content Include="AllReceitas.aspx" />
     <Content Include="ViewDetails.aspx" />
+    <Content Include="PersonalArea.aspx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -231,6 +232,13 @@
     </Compile>
     <Compile Include="ViewDetails.aspx.designer.cs">
       <DependentUpon>ViewDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalArea.aspx.cs">
+      <DependentUpon>PersonalArea.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PersonalArea.aspx.designer.cs">
+      <DependentUpon>PersonalArea.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />

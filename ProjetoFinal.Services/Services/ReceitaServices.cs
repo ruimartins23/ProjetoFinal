@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ProjetoFinal.Data.Repositories;
 using ClassLibrary;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace ProjetoFinal.Services.Services
 {
@@ -42,5 +45,46 @@ namespace ProjetoFinal.Services.Services
             _repo.Remove(id);
         }
 
+        public List<Receita> GetIdRecipe(int userId)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["ProjetoFinalCS"].ConnectionString;
+            List<Receita> recipes = new List<Receita>();
+
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "@spReadRecipeId";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter idPar = new SqlParameter("@Utilizador_id", userId);
+                idPar.DbType = DbType.Int32;
+                idPar.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(idPar);
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Receita recipe = null;
+
+                while (dr.Read())
+                {
+                    recipe = new Receita();
+                    recipe.Id = dr.GetInt32(1);
+
+                    recipes.Add(recipe);
+                }
+
+                return recipes;
+            }
+        }
+        public void InsertFavouriteRecipe(int recipeId, int userId)
+        {
+            _repo.InsertFavouriteRecipe(userId, recipeId);
+        }
     }
+
 }

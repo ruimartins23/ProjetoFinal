@@ -229,5 +229,40 @@ namespace ProjetoFinal.Data.Repositories
                 }
             }
         }
+
+        public List<Receita> GetFavRecipesByUserId(int userId)
+        {
+            List<Receita> recipes = new List<Receita>();
+            using (SqlConnection conn = new SqlConnection(cs))
+            {
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spGetFavRecipesByUserId";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+
+                SqlParameter idUser = new SqlParameter("@Utilizador_id", userId);
+                idUser.DbType = DbType.Int32;
+                idUser.Direction = ParameterDirection.Input;
+
+                cmd.Parameters.Add(idUser);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Receita recipe = null;
+
+                while (dr.Read())
+                {
+                    recipe = new Receita();
+                    recipe.Id = dr.GetInt32(1);
+                    recipes.Add(recipe);
+                    
+                }
+
+                return recipes;
+            }
+        }
     }
 }

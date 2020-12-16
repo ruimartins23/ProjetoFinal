@@ -27,14 +27,14 @@ namespace ProjetoFinal.Services.Services
             return _repo.GetById(id);
         }
 
-        public void Add(Comentario Comentario)
+        public void Add(Comentario comentario)
         {
-            _repo.Add(Comentario);
+            _repo.Add(comentario);
         }
 
-        public void Update(Comentario Comentario)
+        public void Update(Comentario comentario)
         {
-            _repo.Update(Comentario);
+            _repo.Update(comentario);
         }
 
         public void Remove(int id)

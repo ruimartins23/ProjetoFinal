@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClassLibrary;
+using ClassLibrary.Model;
 using ProjetoFinal.Services.Services;
 using static ClassLibrary.Receita;
 
@@ -19,13 +21,19 @@ namespace ProjetoFinal.WebForms
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            UtilizadorServices userRec = new UtilizadorServices();
+            string userName = Membership.GetUser().UserName;
+            Utilizador user = userRec.GetUserByMembershipName(userName);
+            int idUser = user.Id;
             Receita recipe = new Receita();
             ReceitaServices recServ = new ReceitaServices();
             recipe.Nome = nameTxt.Text;
             recipe.Descricao = descTxt.Text;
-            //recipe.Duracao = (TimeSpan)durTxt.Text;
+            recipe.Duracao = durTxt.Text;
             recipe._dificuldade = (Dificuldade)int.Parse(DropDownList1.SelectedValue);
             recipe.Validado = false;
+            recipe.Categoria = catTxt.Text;
+            recipe.Utilizador_id = idUser;
             //foreach (Ingrediente item in ListBox1.Ite)
             //{
             //    Ingrediente ing = (Ingrediente)item;

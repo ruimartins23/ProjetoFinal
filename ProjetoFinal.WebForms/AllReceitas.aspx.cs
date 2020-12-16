@@ -1,7 +1,10 @@
-﻿using System;
+﻿using ClassLibrary;
+using ProjetoFinal.Services.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,7 +14,7 @@ namespace ProjetoFinal.WebForms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
@@ -20,6 +23,13 @@ namespace ProjetoFinal.WebForms
             {
                 Response.Redirect("ViewDetails.aspx?id=" + e.CommandArgument.ToString());
             }
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+           
+
+          
         }
     }
 }

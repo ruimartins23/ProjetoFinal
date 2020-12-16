@@ -2,12 +2,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:DataList ID="DataList1" runat="server" DataSourceID="SqlDataSource1">
         <ItemTemplate>
-            <table style="width: 100%; height: 293px; margin-bottom: 0px">
+            <table style="width: 100%; height: 283px; margin-bottom: 0px">
                 <tr>
                     <td class="text-center" style="width: 214px">
                         <br />
                         <br />
-                        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="TextBox1" runat="server" ></asp:TextBox>
                         <br />
                         <br />
                         <br />
@@ -18,16 +18,15 @@
                     <td class="text-center">
                         <br />
                         <br />
-                        <asp:Label ID="Label1" runat="server" Text="Rating: "></asp:Label>
                         <br />
                         <br />
                         <br />
                         <br />
                         <br />
-                        <asp:Button ID="Button1" runat="server" Height="28px" Text="Classificar" Width="75px" />
                     </td>
                 </tr>
             </table>
+            <asp:Button ID="Button3" runat="server" OnClick="Button3_Click" Text="Adicionar aos favoritos" />
             <br />
         </ItemTemplate>
     </asp:DataList>
